@@ -1,6 +1,11 @@
-factory_id,factory_code,factory_name,city,country,timezone,capacity_class
-1,FCT_001,Bisconni Hyderabad Plant,Hyderabad,Pakistan,Asia/Karachi,Small
-2,FCT_002,Bisconni Multan Plant,Multan,Pakistan,Asia/Karachi,Medium
-3,FCT_003,Bisconni Faisalabad Plant,Faisalabad,Pakistan,Asia/Karachi,Small
-4,FCT_004,Bisconni Karachi Plant,Karachi,Pakistan,Asia/Karachi,Medium
-5,FCT_005,Bisconni Faisalabad Plant,Faisalabad,Pakistan,Asia/Karachi,Medium
+factory_id,factory_name,city,country,timezone,capacity_class
+FCT001,Bisconni Lahore Plant,Lahore,Pakistan,Asia/Karachi,Small
+FCT002,Bisconni Rawalpindi Plant,Rawalpindi,Pakistan,Asia/Karachi,Small
+FCT003,Bisconni Faisalabad Plant,Faisalabad,Pakistan,Asia/Karachi,Small
+FCT004,Bisconni Lahore Plant,Lahore,Pakistan,Asia/Karachi,Large
+FCT005,Bisconni Quetta Plant,Quetta,Pakistan,Asia/Karachi,Small
+FCT006,Bisconni Sialkot Plant,Sialkot,Pakistan,Asia/Karachi,Medium
+FCT007,Bisconni Karachi Plant,Karachi,Pakistan,Asia/Karachi,Small
+FCT008,Bisconni Lahore Plant,Lahore,Pakistan,Asia/Karachi,Small
+FCT009,Bisconni Faisalabad Plant,Faisalabad,Pakistan,Asia/Karachi,Large
+FCT010,Bisconni Sialkot Plant,Sialkot,Pakistan,Asia/Karachi,Small

@@ -9,6 +9,12 @@ Generates larger static tables using Faker:
 - dim_operator
 
 Each table -> its own CSV (and optional JSON) in the output folder.
+
+NOTE:
+- factory_id, machine_id, operator_id are now STRING codes:
+  e.g. 'FCT001', 'MAC0001', 'OPR0001'
+- No separate *_code columns.
+- dim_operator includes factory_id (FK to dim_factory.factory_id).
 """
 
 from pathlib import Path
@@ -23,12 +29,12 @@ import pandas as pd
 OUTPUT_DIR = Path("generated_data")
 ALSO_WRITE_JSON = True
 
-N_FACTORIES = 5
-MIN_MACHINES_PER_FACTORY = 10
-MAX_MACHINES_PER_FACTORY = 25
-
+# You can increase these to get more static data:
+N_FACTORIES = 10                       # was 5
+MIN_MACHINES_PER_FACTORY = 20          # was 10
+MAX_MACHINES_PER_FACTORY = 40          # was 25
 N_PRODUCTS = 40
-N_OPERATORS = 50
+N_OPERATORS = 200                      # was 50
 
 PAK_CITIES = [
     "Karachi", "Lahore", "Islamabad", "Faisalabad", "Rawalpindi",
@@ -40,9 +46,9 @@ VENDORS = ["Siemens", "ABB", "Bosch", "Mitsubishi", "GE"]
 PRODUCT_FAMILIES = ["Biscuits", "Wafers", "Snacks"]
 
 faker = Faker()
-# If you want reproducible results, uncomment:
-# Faker.seed(42)
-# random.seed(42)
+# For reproducible results:
+Faker.seed(42)
+random.seed(42)
 
 
 def ensure_output_dir():
@@ -65,12 +71,15 @@ def write_table(df: pd.DataFrame, name: str):
 # ==========================
 
 def generate_dim_factory() -> pd.DataFrame:
+    """
+    factory_id is now a STRING like 'FCT001'.
+    """
     rows = []
-    for factory_id in range(1, N_FACTORIES + 1):
+    for idx in range(1, N_FACTORIES + 1):
+        factory_id = f"FCT{idx:03d}"
         city = random.choice(PAK_CITIES)
         rows.append({
-            "factory_id": factory_id,
-            "factory_code": f"FCT_{factory_id:03d}",
+            "factory_id": factory_id,                  # string PK
             "factory_name": f"Bisconni {city} Plant",
             "city": city,
             "country": "Pakistan",
@@ -83,6 +92,7 @@ def generate_dim_factory() -> pd.DataFrame:
 def generate_dim_product() -> pd.DataFrame:
     """
     Generate a mix of real-ish Bisconni-style products + random ones.
+    product_id stays numeric (int), that's fine.
     """
     base_products = [
         ("CHOCOLATTO", "Chocolatto Chocochip"),
@@ -130,6 +140,9 @@ def generate_dim_product() -> pd.DataFrame:
 
 
 def generate_dim_sensor_type() -> pd.DataFrame:
+    """
+    sensor_type_id stays numeric, with explicit codes like TEMP, VIB, etc.
+    """
     data = [
         {
             "sensor_type_id": 1,
@@ -167,57 +180,67 @@ def generate_dim_sensor_type() -> pd.DataFrame:
     return pd.DataFrame(data)
 
 
-def generate_dim_operator() -> pd.DataFrame:
-    levels = ["Junior", "Mid", "Senior"]
-    shifts = ["Morning only", "Evening only", "Night only", "Rotational"]
-
-    rows = []
-    for operator_id in range(1, N_OPERATORS + 1):
-        rows.append({
-            "operator_id": operator_id,
-            "operator_code": f"OPR_{operator_id:03d}",
-            "operator_name": faker.name(),
-            "experience_level": random.choice(levels),
-            "shift_pattern": random.choice(shifts),
-        })
-    return pd.DataFrame(rows)
-
-
 def generate_dim_machine(factories_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    machine_id is now STRING like 'MAC0001'.
+    factory_id is a STRING FK to dim_factory.factory_id.
+    """
     rows = []
-    machine_id = 1
+    machine_counter = 1
 
     for _, factory in factories_df.iterrows():
-        factory_id = factory["factory_id"]
-        city = factory["city"]
+        factory_id = factory["factory_id"]  # string, e.g. 'FCT001'
 
         n_machines = random.randint(MIN_MACHINES_PER_FACTORY, MAX_MACHINES_PER_FACTORY)
 
-        for i in range(n_machines):
-            # Create some pseudo-line/grouping info
+        for _ in range(n_machines):
             product_family = random.choice(PRODUCT_FAMILIES)
             line_index = random.randint(1, 4)
             line_code = f"{product_family.upper().replace(' ', '_')}_LINE_{line_index}"
             line_name = f"{product_family} Line {line_index}"
 
             machine_type = random.choice(MACHINE_TYPES)
-            machine_code = f"{machine_type[:3].upper()}_{machine_id:03d}"
+
+            # String machine ID like MAC0001
+            machine_id = f"MAC{machine_counter:04d}"
+            machine_counter += 1
 
             rows.append({
-                "machine_id": machine_id,
-                "machine_code": machine_code,
-                "machine_name": f"{machine_type}-{machine_id:03d}",
+                "machine_id": machine_id,  # string PK
+                "machine_name": f"{machine_type}-{machine_id}",
                 "line_code": line_code,
                 "line_name": line_name,
                 "product_family": product_family,
-                "factory_id": factory_id,
+                "factory_id": factory_id,  # string FK -> dim_factory.factory_id
                 "machine_type": machine_type,
                 "vendor": random.choice(VENDORS),
                 "install_date": faker.date_between(start_date="-10y", end_date="-1y"),
                 "criticality": random.choice(["Low", "Medium", "High"]),
             })
-            machine_id += 1
 
+    return pd.DataFrame(rows)
+
+
+def generate_dim_operator(factories_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    operator_id is STRING like 'OPR0001'.
+    Each operator is assigned to a factory via factory_id (string FK).
+    """
+    levels = ["Junior", "Mid", "Senior"]
+    shifts = ["Morning only", "Evening only", "Night only", "Rotational"]
+
+    factory_ids = factories_df["factory_id"].tolist()
+
+    rows = []
+    for idx in range(1, N_OPERATORS + 1):
+        operator_id = f"OPR{idx:04d}"  # string PK
+        rows.append({
+            "operator_id": operator_id,
+            "operator_name": faker.name(),
+            "experience_level": random.choice(levels),
+            "shift_pattern": random.choice(shifts),
+            "factory_id": random.choice(factory_ids),  # string FK
+        })
     return pd.DataFrame(rows)
 
 
@@ -231,8 +254,8 @@ def main():
     dim_factory = generate_dim_factory()
     dim_product = generate_dim_product()
     dim_sensor_type = generate_dim_sensor_type()
-    dim_operator = generate_dim_operator()
     dim_machine = generate_dim_machine(dim_factory)
+    dim_operator = generate_dim_operator(dim_factory)
 
     write_table(dim_factory, "dim_factory")
     write_table(dim_machine, "dim_machine")

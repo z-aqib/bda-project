@@ -1,25 +1,22 @@
 [
   {
-    "factory_id":1,
-    "factory_code":"FCT_001",
-    "factory_name":"Bisconni Hyderabad Plant",
-    "city":"Hyderabad",
+    "factory_id":"FCT001",
+    "factory_name":"Bisconni Lahore Plant",
+    "city":"Lahore",
     "country":"Pakistan",
     "timezone":"Asia\/Karachi",
     "capacity_class":"Small"
   },
   {
-    "factory_id":2,
-    "factory_code":"FCT_002",
-    "factory_name":"Bisconni Multan Plant",
-    "city":"Multan",
+    "factory_id":"FCT002",
+    "factory_name":"Bisconni Rawalpindi Plant",
+    "city":"Rawalpindi",
     "country":"Pakistan",
     "timezone":"Asia\/Karachi",
-    "capacity_class":"Medium"
+    "capacity_class":"Small"
   },
   {
-    "factory_id":3,
-    "factory_code":"FCT_003",
+    "factory_id":"FCT003",
     "factory_name":"Bisconni Faisalabad Plant",
     "city":"Faisalabad",
     "country":"Pakistan",
@@ -27,21 +24,59 @@
     "capacity_class":"Small"
   },
   {
-    "factory_id":4,
-    "factory_code":"FCT_004",
+    "factory_id":"FCT004",
+    "factory_name":"Bisconni Lahore Plant",
+    "city":"Lahore",
+    "country":"Pakistan",
+    "timezone":"Asia\/Karachi",
+    "capacity_class":"Large"
+  },
+  {
+    "factory_id":"FCT005",
+    "factory_name":"Bisconni Quetta Plant",
+    "city":"Quetta",
+    "country":"Pakistan",
+    "timezone":"Asia\/Karachi",
+    "capacity_class":"Small"
+  },
+  {
+    "factory_id":"FCT006",
+    "factory_name":"Bisconni Sialkot Plant",
+    "city":"Sialkot",
+    "country":"Pakistan",
+    "timezone":"Asia\/Karachi",
+    "capacity_class":"Medium"
+  },
+  {
+    "factory_id":"FCT007",
     "factory_name":"Bisconni Karachi Plant",
     "city":"Karachi",
     "country":"Pakistan",
     "timezone":"Asia\/Karachi",
-    "capacity_class":"Medium"
+    "capacity_class":"Small"
   },
   {
-    "factory_id":5,
-    "factory_code":"FCT_005",
+    "factory_id":"FCT008",
+    "factory_name":"Bisconni Lahore Plant",
+    "city":"Lahore",
+    "country":"Pakistan",
+    "timezone":"Asia\/Karachi",
+    "capacity_class":"Small"
+  },
+  {
+    "factory_id":"FCT009",
     "factory_name":"Bisconni Faisalabad Plant",
     "city":"Faisalabad",
     "country":"Pakistan",
     "timezone":"Asia\/Karachi",
-    "capacity_class":"Medium"
+    "capacity_class":"Large"
+  },
+  {
+    "factory_id":"FCT010",
+    "factory_name":"Bisconni Sialkot Plant",
+    "city":"Sialkot",
+    "country":"Pakistan",
+    "timezone":"Asia\/Karachi",
+    "capacity_class":"Small"
   }
 ]

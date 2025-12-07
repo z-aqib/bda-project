@@ -1,51 +1,201 @@
-operator_id,operator_code,operator_name,experience_level,shift_pattern
-1,OPR_001,Steven Snyder,Junior,Rotational
-2,OPR_002,Scott Peterson,Junior,Morning only
-3,OPR_003,Heather Davies,Senior,Evening only
-4,OPR_004,Anthony Sanchez,Mid,Rotational
-5,OPR_005,Dr. Melissa Richardson,Mid,Night only
-6,OPR_006,Ana Suarez,Senior,Evening only
-7,OPR_007,Sean Spencer,Junior,Rotational
-8,OPR_008,Taylor Washington,Junior,Night only
-9,OPR_009,Timothy Reyes,Mid,Morning only
-10,OPR_010,Dr. Susan Boyer,Senior,Morning only
-11,OPR_011,William Williams,Mid,Evening only
-12,OPR_012,Ashley Miller,Mid,Rotational
-13,OPR_013,Sara Moore,Mid,Morning only
-14,OPR_014,Jason Watson,Mid,Evening only
-15,OPR_015,Dawn Smith,Mid,Rotational
-16,OPR_016,Jeffery Houston,Mid,Night only
-17,OPR_017,Melissa Chang,Junior,Morning only
-18,OPR_018,Mallory Phillips,Mid,Morning only
-19,OPR_019,Vincent Pearson,Junior,Evening only
-20,OPR_020,Veronica Porter,Junior,Rotational
-21,OPR_021,Maria Perez,Junior,Rotational
-22,OPR_022,Ryan Jones,Senior,Morning only
-23,OPR_023,Sean Allen,Junior,Morning only
-24,OPR_024,James Santiago,Mid,Evening only
-25,OPR_025,Donna Hernandez,Junior,Rotational
-26,OPR_026,Angelica Gibson,Senior,Rotational
-27,OPR_027,Jill Harrison,Senior,Evening only
-28,OPR_028,Dustin Williamson,Senior,Rotational
-29,OPR_029,Elizabeth Fleming,Junior,Night only
-30,OPR_030,Pamela Gray,Mid,Evening only
-31,OPR_031,Steven Ray,Junior,Evening only
-32,OPR_032,Micheal Lewis,Junior,Evening only
-33,OPR_033,Karen Berger,Junior,Evening only
-34,OPR_034,Thomas Phillips,Mid,Morning only
-35,OPR_035,Todd Cooper,Junior,Night only
-36,OPR_036,Donald Wood,Senior,Rotational
-37,OPR_037,Terry Wood,Senior,Rotational
-38,OPR_038,George Wells,Junior,Morning only
-39,OPR_039,Amanda Smith,Mid,Morning only
-40,OPR_040,Aaron Tucker,Junior,Night only
-41,OPR_041,Roy Ramsey,Senior,Morning only
-42,OPR_042,Leslie Cabrera,Mid,Rotational
-43,OPR_043,Mrs. Maria Smith,Senior,Night only
-44,OPR_044,Miranda Scott,Junior,Rotational
-45,OPR_045,Carla Long,Junior,Night only
-46,OPR_046,Crystal Horne,Mid,Rotational
-47,OPR_047,James Hill,Mid,Morning only
-48,OPR_048,Rebecca Morales,Mid,Morning only
-49,OPR_049,Charles Saunders,Junior,Night only
-50,OPR_050,Jordan Jensen,Mid,Morning only
+operator_id,operator_name,experience_level,shift_pattern,factory_id
+OPR0001,Kenneth Scott,Senior,Morning only,FCT002
+OPR0002,April Frost,Junior,Night only,FCT004
+OPR0003,Michelle Harmon,Junior,Rotational,FCT002
+OPR0004,Helen Jones,Mid,Evening only,FCT005
+OPR0005,Erin Edwards,Junior,Morning only,FCT004
+OPR0006,Michelle Evans,Mid,Rotational,FCT002
+OPR0007,Jason Powell,Junior,Rotational,FCT010
+OPR0008,Cameron Fisher,Senior,Morning only,FCT009
+OPR0009,Megan Orr,Senior,Evening only,FCT003
+OPR0010,Elizabeth Kelley,Mid,Rotational,FCT001
+OPR0011,Dustin Jordan,Senior,Night only,FCT004
+OPR0012,Mary Marshall,Senior,Rotational,FCT003
+OPR0013,Daniel Kennedy,Senior,Morning only,FCT009
+OPR0014,Rebecca Jackson,Mid,Morning only,FCT009
+OPR0015,Jose Schultz,Senior,Morning only,FCT007
+OPR0016,Robert Potter,Mid,Morning only,FCT007
+OPR0017,Courtney Gonzalez,Mid,Night only,FCT001
+OPR0018,David Alvarez,Mid,Morning only,FCT006
+OPR0019,Angel Perry,Junior,Morning only,FCT010
+OPR0020,Cheyenne Horton,Senior,Night only,FCT003
+OPR0021,David Douglas Jr.,Junior,Night only,FCT009
+OPR0022,Patricia Rodriguez,Mid,Evening only,FCT008
+OPR0023,Christopher Rubio,Senior,Rotational,FCT003
+OPR0024,Amber Wright,Junior,Morning only,FCT008
+OPR0025,Joyce Solis,Junior,Night only,FCT004
+OPR0026,Victoria Larson,Junior,Evening only,FCT001
+OPR0027,Stephanie Salazar,Mid,Night only,FCT009
+OPR0028,Kathy Rivas,Mid,Rotational,FCT005
+OPR0029,Stephanie Manning,Junior,Evening only,FCT005
+OPR0030,David Wright,Mid,Morning only,FCT006
+OPR0031,Pamela Boyd,Mid,Morning only,FCT006
+OPR0032,Denise Jones,Mid,Rotational,FCT008
+OPR0033,Devon Flores,Mid,Night only,FCT003
+OPR0034,Brenda Hall,Mid,Rotational,FCT006
+OPR0035,Michelle Brown,Senior,Night only,FCT002
+OPR0036,Joshua Perry,Senior,Rotational,FCT002
+OPR0037,Jason Stein,Mid,Evening only,FCT009
+OPR0038,Melissa Gates,Mid,Night only,FCT002
+OPR0039,Jamie Smith,Junior,Night only,FCT005
+OPR0040,Paul Castaneda,Mid,Rotational,FCT010
+OPR0041,Jennifer Adkins,Senior,Rotational,FCT003
+OPR0042,Lindsey Walker,Senior,Rotational,FCT006
+OPR0043,Jeffrey Johnson,Mid,Morning only,FCT006
+OPR0044,Michael Powell,Senior,Rotational,FCT005
+OPR0045,John Anderson,Senior,Morning only,FCT002
+OPR0046,Alyssa Long,Senior,Rotational,FCT006
+OPR0047,Alyssa Day,Senior,Evening only,FCT001
+OPR0048,Joel Williams,Junior,Rotational,FCT001
+OPR0049,Daniel Murphy,Junior,Morning only,FCT004
+OPR0050,Jamie Walton,Senior,Night only,FCT006
+OPR0051,Darlene Miller,Mid,Morning only,FCT010
+OPR0052,Joshua Cooke,Junior,Rotational,FCT006
+OPR0053,Matthew Harrington,Mid,Rotational,FCT002
+OPR0054,Nicole Herring,Senior,Evening only,FCT009
+OPR0055,Alex Hernandez,Mid,Rotational,FCT006
+OPR0056,Michael Elliott,Senior,Night only,FCT004
+OPR0057,Michael Wang,Junior,Morning only,FCT003
+OPR0058,Lawrence Adkins,Mid,Rotational,FCT009
+OPR0059,Robert Oconnell,Junior,Night only,FCT005
+OPR0060,Alexander Collins,Senior,Rotational,FCT004
+OPR0061,Tina Sanders,Senior,Night only,FCT008
+OPR0062,Angela Vaughn,Junior,Morning only,FCT003
+OPR0063,Ashley Barton,Junior,Rotational,FCT003
+OPR0064,Lindsay Martinez,Senior,Rotational,FCT002
+OPR0065,Dr. Hannah Patterson,Senior,Night only,FCT006
+OPR0066,Jonathan Peterson,Senior,Morning only,FCT009
+OPR0067,Samantha Garcia,Senior,Night only,FCT005
+OPR0068,Madison Poole,Junior,Evening only,FCT006
+OPR0069,Jessica Gross,Senior,Evening only,FCT002
+OPR0070,Debra Morton,Junior,Evening only,FCT004
+OPR0071,Karen Graham,Mid,Morning only,FCT006
+OPR0072,Debra Christian,Senior,Night only,FCT008
+OPR0073,Angelica Keith,Senior,Evening only,FCT010
+OPR0074,John Bishop,Junior,Morning only,FCT005
+OPR0075,Allen Rosales,Mid,Rotational,FCT009
+OPR0076,Daniel Salinas,Mid,Rotational,FCT010
+OPR0077,Spencer Haynes,Junior,Evening only,FCT006
+OPR0078,Adam Vaughan,Senior,Morning only,FCT008
+OPR0079,Nathan Freeman,Mid,Night only,FCT003
+OPR0080,Melissa Brewer,Senior,Evening only,FCT003
+OPR0081,Ricky Davis II,Mid,Morning only,FCT002
+OPR0082,Elizabeth Perkins,Senior,Evening only,FCT005
+OPR0083,Joseph Coleman,Junior,Evening only,FCT006
+OPR0084,Erin Warner,Senior,Evening only,FCT006
+OPR0085,David Martinez,Senior,Night only,FCT002
+OPR0086,Bryan Herrera,Mid,Evening only,FCT009
+OPR0087,Cathy Robinson,Mid,Evening only,FCT005
+OPR0088,Dr. William Warren,Senior,Morning only,FCT009
+OPR0089,Brian Lee,Senior,Evening only,FCT010
+OPR0090,Christopher Smith,Senior,Evening only,FCT003
+OPR0091,Denise Mccann,Senior,Night only,FCT010
+OPR0092,Melissa Martinez,Junior,Morning only,FCT002
+OPR0093,Katherine Salas,Junior,Night only,FCT004
+OPR0094,Julie Alexander,Senior,Rotational,FCT010
+OPR0095,Anthony Everett,Senior,Morning only,FCT008
+OPR0096,Rodney Morales,Senior,Night only,FCT005
+OPR0097,Mark Brown,Mid,Evening only,FCT007
+OPR0098,Justin Torres,Mid,Rotational,FCT002
+OPR0099,Bailey Duran DDS,Senior,Morning only,FCT003
+OPR0100,Courtney Mills,Mid,Rotational,FCT008
+OPR0101,Jeremy Dalton,Mid,Evening only,FCT006
+OPR0102,Elizabeth Oliver DDS,Senior,Evening only,FCT006
+OPR0103,Theresa Clark,Senior,Night only,FCT006
+OPR0104,Matthew Moore,Mid,Evening only,FCT006
+OPR0105,Benjamin Smith,Senior,Morning only,FCT006
+OPR0106,Kirk Carter,Junior,Rotational,FCT002
+OPR0107,Michael Warner,Mid,Rotational,FCT004
+OPR0108,Michael Bradshaw,Junior,Morning only,FCT001
+OPR0109,Lori Guerrero,Mid,Rotational,FCT010
+OPR0110,Jessica Stephens,Mid,Evening only,FCT003
+OPR0111,Susan Serrano,Mid,Night only,FCT004
+OPR0112,Christopher Parker,Junior,Rotational,FCT009
+OPR0113,Laura Roberts,Mid,Rotational,FCT005
+OPR0114,Michael Lyons,Mid,Morning only,FCT002
+OPR0115,Kathryn Snyder,Mid,Rotational,FCT004
+OPR0116,Andrew Reynolds,Junior,Night only,FCT001
+OPR0117,David Davis,Junior,Night only,FCT008
+OPR0118,Sara Johnston,Senior,Rotational,FCT005
+OPR0119,Yvonne Chambers,Senior,Morning only,FCT002
+OPR0120,Andrew Avila,Mid,Evening only,FCT005
+OPR0121,Matthew Moon,Senior,Night only,FCT007
+OPR0122,Kevin Walters,Mid,Morning only,FCT007
+OPR0123,Brandon Bailey MD,Junior,Evening only,FCT006
+OPR0124,Shannon Rivera,Senior,Night only,FCT002
+OPR0125,Donna Landry,Mid,Rotational,FCT009
+OPR0126,Krista Gibson,Mid,Morning only,FCT003
+OPR0127,Frank Cordova,Junior,Rotational,FCT006
+OPR0128,Jose Travis,Mid,Night only,FCT003
+OPR0129,Kimberly Gutierrez,Junior,Rotational,FCT009
+OPR0130,Isaiah Avila,Junior,Morning only,FCT001
+OPR0131,Olivia Harris,Junior,Night only,FCT008
+OPR0132,Tanya Kim,Senior,Rotational,FCT003
+OPR0133,Barbara Dudley,Senior,Evening only,FCT006
+OPR0134,Cynthia Moore,Senior,Night only,FCT003
+OPR0135,Kristen Davis,Mid,Night only,FCT010
+OPR0136,Susan Murray MD,Mid,Rotational,FCT010
+OPR0137,Kathleen Moran,Mid,Rotational,FCT001
+OPR0138,Denise Davenport,Mid,Night only,FCT002
+OPR0139,Mrs. Kristen Reyes,Mid,Night only,FCT001
+OPR0140,Katie Suarez,Senior,Rotational,FCT005
+OPR0141,Desiree Tyler,Senior,Evening only,FCT001
+OPR0142,Timothy Romero,Senior,Rotational,FCT003
+OPR0143,Diane Evans,Senior,Rotational,FCT003
+OPR0144,Yvonne Burns,Senior,Evening only,FCT001
+OPR0145,Joshua Reed,Senior,Morning only,FCT004
+OPR0146,Kimberly Gibson,Junior,Rotational,FCT006
+OPR0147,Colin Terry,Mid,Evening only,FCT007
+OPR0148,Cynthia Rowe,Senior,Evening only,FCT007
+OPR0149,Patrick Thornton,Senior,Rotational,FCT001
+OPR0150,Jasmin Alvarado,Senior,Evening only,FCT009
+OPR0151,Veronica Simpson,Junior,Night only,FCT008
+OPR0152,Jonathan Lawrence,Senior,Rotational,FCT006
+OPR0153,Shelly Alexander,Junior,Rotational,FCT009
+OPR0154,Joyce Bowen,Mid,Night only,FCT005
+OPR0155,Matthew Moore,Senior,Rotational,FCT004
+OPR0156,Wayne Morgan,Junior,Night only,FCT009
+OPR0157,Marie Christian,Mid,Evening only,FCT005
+OPR0158,Shannon James,Mid,Evening only,FCT008
+OPR0159,Nathan Malone,Mid,Rotational,FCT006
+OPR0160,Amanda Jones,Senior,Night only,FCT005
+OPR0161,Tammie Bright,Junior,Rotational,FCT007
+OPR0162,Jessica Garcia,Mid,Evening only,FCT005
+OPR0163,Shelia Wallace,Junior,Night only,FCT002
+OPR0164,Stephanie Williams,Mid,Rotational,FCT005
+OPR0165,Elaine Brooks,Senior,Rotational,FCT004
+OPR0166,Joseph Knight,Junior,Night only,FCT009
+OPR0167,Carolyn Miller,Senior,Night only,FCT003
+OPR0168,Lisa Allen,Junior,Evening only,FCT004
+OPR0169,Briana Murray,Junior,Evening only,FCT004
+OPR0170,David Smith,Junior,Morning only,FCT007
+OPR0171,Stephanie Byrd,Mid,Rotational,FCT002
+OPR0172,Jeremy Reed,Senior,Evening only,FCT001
+OPR0173,Margaret Coleman,Senior,Evening only,FCT007
+OPR0174,Ryan Gonzalez,Senior,Rotational,FCT008
+OPR0175,John Young,Senior,Evening only,FCT005
+OPR0176,Laura Haney,Mid,Night only,FCT001
+OPR0177,William Barrett,Junior,Evening only,FCT009
+OPR0178,Keith Jennings,Senior,Morning only,FCT003
+OPR0179,Amber Obrien,Mid,Evening only,FCT001
+OPR0180,Tanner Mitchell DDS,Mid,Rotational,FCT003
+OPR0181,Heather Fields,Senior,Night only,FCT001
+OPR0182,Megan Le,Junior,Night only,FCT010
+OPR0183,Sara Fuller,Senior,Morning only,FCT006
+OPR0184,Maria Parker,Mid,Rotational,FCT009
+OPR0185,Kevin Oconnor,Senior,Rotational,FCT003
+OPR0186,Edward Burgess,Senior,Rotational,FCT005
+OPR0187,Carlos Ryan,Junior,Morning only,FCT006
+OPR0188,Kiara Mcintyre,Junior,Rotational,FCT005
+OPR0189,Dawn Summers,Senior,Evening only,FCT001
+OPR0190,Dr. Paul Morgan,Senior,Night only,FCT005
+OPR0191,Victor Taylor,Senior,Evening only,FCT003
+OPR0192,Shannon Ramsey,Senior,Rotational,FCT007
+OPR0193,Tracy Ballard,Senior,Night only,FCT002
+OPR0194,Richard Smith,Mid,Morning only,FCT003
+OPR0195,Jordan Chambers,Junior,Rotational,FCT006
+OPR0196,Lauren Carson,Junior,Morning only,FCT005
+OPR0197,Ashley Hall,Mid,Evening only,FCT008
+OPR0198,Stephen Hoffman,Mid,Night only,FCT005
+OPR0199,Connie Brown,Senior,Morning only,FCT005
+OPR0200,Susan Turner,Senior,Night only,FCT004

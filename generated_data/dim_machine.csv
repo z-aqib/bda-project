@@ -1,79 +1,343 @@
-machine_id,machine_code,machine_name,line_code,line_name,product_family,factory_id,machine_type,vendor,install_date,criticality
-1,CON_001,Conveyor-001,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Conveyor,GE,2024-12-01,Medium
-2,MIX_002,Mixer-002,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Mixer,Siemens,2018-08-03,Medium
-3,OVE_003,Oven-003,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,1,Oven,GE,2022-06-22,Medium
-4,PAC_004,Packer-004,SNACKS_LINE_1,Snacks Line 1,Snacks,1,Packer,Siemens,2016-07-08,Medium
-5,PAC_005,Packer-005,WAFERS_LINE_3,Wafers Line 3,Wafers,1,Packer,Mitsubishi,2024-06-14,Low
-6,PAC_006,Packer-006,WAFERS_LINE_1,Wafers Line 1,Wafers,1,Packer,GE,2017-09-15,Low
-7,COO_007,Cooling Tunnel-007,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,1,Cooling Tunnel,ABB,2020-11-03,Medium
-8,OVE_008,Oven-008,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,1,Oven,Siemens,2021-09-28,Medium
-9,COO_009,Cooling Tunnel-009,SNACKS_LINE_4,Snacks Line 4,Snacks,1,Cooling Tunnel,Siemens,2023-03-03,Low
-10,OVE_010,Oven-010,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Oven,Bosch,2022-02-03,Medium
-11,PAC_011,Packer-011,WAFERS_LINE_4,Wafers Line 4,Wafers,2,Packer,ABB,2017-09-23,Medium
-12,CON_012,Conveyor-012,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Conveyor,GE,2016-10-31,Low
-13,COO_013,Cooling Tunnel-013,WAFERS_LINE_2,Wafers Line 2,Wafers,2,Cooling Tunnel,Mitsubishi,2019-07-29,Medium
-14,OVE_014,Oven-014,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Oven,Bosch,2016-10-26,Medium
-15,OVE_015,Oven-015,WAFERS_LINE_4,Wafers Line 4,Wafers,2,Oven,Mitsubishi,2018-02-20,Medium
-16,OVE_016,Oven-016,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,2,Oven,ABB,2017-04-17,High
-17,OVE_017,Oven-017,SNACKS_LINE_3,Snacks Line 3,Snacks,2,Oven,Bosch,2017-03-01,High
-18,MIX_018,Mixer-018,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Mixer,GE,2024-04-18,Medium
-19,OVE_019,Oven-019,SNACKS_LINE_1,Snacks Line 1,Snacks,2,Oven,Siemens,2023-05-19,High
-20,MIX_020,Mixer-020,WAFERS_LINE_2,Wafers Line 2,Wafers,2,Mixer,GE,2020-03-19,High
-21,PAC_021,Packer-021,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,3,Packer,Bosch,2018-04-05,Medium
-22,OVE_022,Oven-022,SNACKS_LINE_4,Snacks Line 4,Snacks,3,Oven,Siemens,2021-07-04,Medium
-23,CON_023,Conveyor-023,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Conveyor,ABB,2017-08-11,Low
-24,COO_024,Cooling Tunnel-024,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Cooling Tunnel,ABB,2020-07-31,Low
-25,CON_025,Conveyor-025,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Conveyor,ABB,2021-09-11,High
-26,PAC_026,Packer-026,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Packer,ABB,2019-09-22,Medium
-27,CON_027,Conveyor-027,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Conveyor,GE,2024-02-18,Medium
-28,COO_028,Cooling Tunnel-028,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Cooling Tunnel,GE,2021-04-14,Low
-29,OVE_029,Oven-029,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Oven,Bosch,2015-12-22,Low
-30,COO_030,Cooling Tunnel-030,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Cooling Tunnel,GE,2021-02-02,Medium
-31,PAC_031,Packer-031,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Packer,GE,2016-05-29,Low
-32,OVE_032,Oven-032,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,3,Oven,Siemens,2019-09-16,Low
-33,PAC_033,Packer-033,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Packer,GE,2021-10-24,High
-34,COO_034,Cooling Tunnel-034,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Cooling Tunnel,Siemens,2016-09-27,High
-35,OVE_035,Oven-035,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Oven,Mitsubishi,2021-07-29,Medium
-36,PAC_036,Packer-036,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Packer,Bosch,2023-02-02,Medium
-37,COO_037,Cooling Tunnel-037,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Cooling Tunnel,Siemens,2018-12-30,High
-38,OVE_038,Oven-038,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Oven,Mitsubishi,2016-01-12,Medium
-39,OVE_039,Oven-039,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Oven,GE,2024-06-22,High
-40,COO_040,Cooling Tunnel-040,WAFERS_LINE_3,Wafers Line 3,Wafers,3,Cooling Tunnel,GE,2021-09-08,Medium
-41,COO_041,Cooling Tunnel-041,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Cooling Tunnel,Siemens,2018-09-28,Medium
-42,COO_042,Cooling Tunnel-042,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,4,Cooling Tunnel,ABB,2016-02-25,High
-43,PAC_043,Packer-043,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Packer,Siemens,2021-08-15,High
-44,MIX_044,Mixer-044,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,4,Mixer,Siemens,2017-01-19,Low
-45,COO_045,Cooling Tunnel-045,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,4,Cooling Tunnel,Bosch,2023-10-24,Medium
-46,PAC_046,Packer-046,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Packer,Mitsubishi,2019-11-15,Low
-47,MIX_047,Mixer-047,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Mixer,Bosch,2016-09-02,Medium
-48,CON_048,Conveyor-048,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Conveyor,Siemens,2018-08-07,Medium
-49,OVE_049,Oven-049,SNACKS_LINE_2,Snacks Line 2,Snacks,4,Oven,Bosch,2019-09-15,Low
-50,OVE_050,Oven-050,SNACKS_LINE_1,Snacks Line 1,Snacks,4,Oven,GE,2019-12-18,High
-51,COO_051,Cooling Tunnel-051,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Cooling Tunnel,Mitsubishi,2021-02-10,Low
-52,COO_052,Cooling Tunnel-052,SNACKS_LINE_2,Snacks Line 2,Snacks,4,Cooling Tunnel,Bosch,2019-07-03,Low
-53,CON_053,Conveyor-053,SNACKS_LINE_1,Snacks Line 1,Snacks,4,Conveyor,Siemens,2020-02-03,Low
-54,COO_054,Cooling Tunnel-054,WAFERS_LINE_4,Wafers Line 4,Wafers,4,Cooling Tunnel,Mitsubishi,2023-01-08,High
-55,MIX_055,Mixer-055,SNACKS_LINE_3,Snacks Line 3,Snacks,4,Mixer,Siemens,2016-12-05,Low
-56,COO_056,Cooling Tunnel-056,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Cooling Tunnel,GE,2019-12-08,High
-57,COO_057,Cooling Tunnel-057,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,4,Cooling Tunnel,Bosch,2024-05-29,Low
-58,CON_058,Conveyor-058,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,4,Conveyor,Bosch,2020-10-04,Low
-59,MIX_059,Mixer-059,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Mixer,ABB,2016-12-04,Low
-60,COO_060,Cooling Tunnel-060,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Cooling Tunnel,Siemens,2020-08-21,Medium
-61,PAC_061,Packer-061,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Packer,GE,2020-07-06,Medium
-62,PAC_062,Packer-062,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Packer,Siemens,2016-02-04,Medium
-63,PAC_063,Packer-063,WAFERS_LINE_4,Wafers Line 4,Wafers,4,Packer,Bosch,2022-06-03,Medium
-64,COO_064,Cooling Tunnel-064,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Cooling Tunnel,Bosch,2020-12-30,Medium
-65,CON_065,Conveyor-065,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,5,Conveyor,Siemens,2019-12-13,Low
-66,COO_066,Cooling Tunnel-066,WAFERS_LINE_4,Wafers Line 4,Wafers,5,Cooling Tunnel,Mitsubishi,2020-06-24,High
-67,PAC_067,Packer-067,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Packer,Bosch,2019-07-07,Low
-68,PAC_068,Packer-068,WAFERS_LINE_4,Wafers Line 4,Wafers,5,Packer,Mitsubishi,2024-11-08,Low
-69,MIX_069,Mixer-069,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,5,Mixer,GE,2020-01-09,High
-70,MIX_070,Mixer-070,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Mixer,Bosch,2018-11-06,Medium
-71,CON_071,Conveyor-071,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,5,Conveyor,Bosch,2023-05-06,Low
-72,COO_072,Cooling Tunnel-072,WAFERS_LINE_3,Wafers Line 3,Wafers,5,Cooling Tunnel,ABB,2016-05-30,Low
-73,OVE_073,Oven-073,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,5,Oven,GE,2020-09-18,High
-74,MIX_074,Mixer-074,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Mixer,Siemens,2017-01-18,High
-75,PAC_075,Packer-075,SNACKS_LINE_3,Snacks Line 3,Snacks,5,Packer,GE,2018-10-20,High
-76,CON_076,Conveyor-076,SNACKS_LINE_1,Snacks Line 1,Snacks,5,Conveyor,Bosch,2021-04-08,Medium
-77,OVE_077,Oven-077,SNACKS_LINE_3,Snacks Line 3,Snacks,5,Oven,Bosch,2015-12-31,Medium
-78,MIX_078,Mixer-078,WAFERS_LINE_3,Wafers Line 3,Wafers,5,Mixer,GE,2020-08-28,High
+machine_id,machine_name,line_code,line_name,product_family,factory_id,machine_type,vendor,install_date,criticality
+MAC0001,Oven-MAC0001,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT001,Oven,Siemens,2016-09-01,High
+MAC0002,Oven-MAC0002,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT001,Oven,ABB,2023-09-30,Low
+MAC0003,Conveyor-MAC0003,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT001,Conveyor,Bosch,2018-01-20,Low
+MAC0004,Mixer-MAC0004,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT001,Mixer,Bosch,2022-05-16,High
+MAC0005,Cooling Tunnel-MAC0005,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT001,Cooling Tunnel,ABB,2017-04-09,High
+MAC0006,Mixer-MAC0006,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT001,Mixer,Mitsubishi,2020-12-01,Medium
+MAC0007,Packer-MAC0007,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT001,Packer,Siemens,2022-01-31,Low
+MAC0008,Conveyor-MAC0008,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT001,Conveyor,Bosch,2019-03-15,Low
+MAC0009,Mixer-MAC0009,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT001,Mixer,Mitsubishi,2017-02-11,Medium
+MAC0010,Mixer-MAC0010,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Mixer,Bosch,2016-09-16,Low
+MAC0011,Cooling Tunnel-MAC0011,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT001,Cooling Tunnel,Mitsubishi,2019-10-23,High
+MAC0012,Mixer-MAC0012,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT001,Mixer,ABB,2020-11-08,High
+MAC0013,Oven-MAC0013,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT001,Oven,Siemens,2017-04-15,Low
+MAC0014,Conveyor-MAC0014,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT001,Conveyor,GE,2019-11-22,Low
+MAC0015,Cooling Tunnel-MAC0015,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT001,Cooling Tunnel,Mitsubishi,2017-08-25,High
+MAC0016,Oven-MAC0016,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT001,Oven,GE,2022-05-26,Medium
+MAC0017,Oven-MAC0017,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT001,Oven,Bosch,2020-08-29,Medium
+MAC0018,Oven-MAC0018,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT001,Oven,Bosch,2023-08-24,High
+MAC0019,Packer-MAC0019,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT001,Packer,GE,2022-02-19,High
+MAC0020,Packer-MAC0020,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT001,Packer,ABB,2018-09-12,High
+MAC0021,Cooling Tunnel-MAC0021,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT001,Cooling Tunnel,Bosch,2022-03-25,Medium
+MAC0022,Packer-MAC0022,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT001,Packer,Bosch,2021-12-22,Low
+MAC0023,Cooling Tunnel-MAC0023,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT001,Cooling Tunnel,Siemens,2019-06-30,Low
+MAC0024,Oven-MAC0024,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Oven,GE,2020-06-21,Low
+MAC0025,Cooling Tunnel-MAC0025,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT001,Cooling Tunnel,ABB,2017-02-22,Medium
+MAC0026,Mixer-MAC0026,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Mixer,GE,2018-11-04,High
+MAC0027,Packer-MAC0027,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT001,Packer,Mitsubishi,2020-02-05,High
+MAC0028,Conveyor-MAC0028,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT001,Conveyor,GE,2018-09-17,Medium
+MAC0029,Mixer-MAC0029,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT001,Mixer,Siemens,2023-10-18,Medium
+MAC0030,Cooling Tunnel-MAC0030,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT001,Cooling Tunnel,ABB,2022-05-21,Low
+MAC0031,Mixer-MAC0031,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT001,Mixer,Siemens,2020-07-10,Low
+MAC0032,Cooling Tunnel-MAC0032,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT001,Cooling Tunnel,ABB,2019-09-01,Medium
+MAC0033,Mixer-MAC0033,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Mixer,GE,2021-06-13,Low
+MAC0034,Mixer-MAC0034,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Mixer,Mitsubishi,2016-11-18,Medium
+MAC0035,Oven-MAC0035,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT001,Oven,Mitsubishi,2019-10-30,Medium
+MAC0036,Conveyor-MAC0036,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT001,Conveyor,Siemens,2016-06-23,High
+MAC0037,Oven-MAC0037,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT001,Oven,Mitsubishi,2021-04-19,High
+MAC0038,Mixer-MAC0038,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT001,Mixer,ABB,2022-10-03,Low
+MAC0039,Mixer-MAC0039,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT001,Mixer,Mitsubishi,2020-06-26,Low
+MAC0040,Oven-MAC0040,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT002,Oven,Mitsubishi,2017-01-21,High
+MAC0041,Cooling Tunnel-MAC0041,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT002,Cooling Tunnel,Siemens,2019-07-10,Low
+MAC0042,Conveyor-MAC0042,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT002,Conveyor,Mitsubishi,2021-04-14,Medium
+MAC0043,Oven-MAC0043,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT002,Oven,ABB,2019-07-20,Medium
+MAC0044,Packer-MAC0044,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT002,Packer,Mitsubishi,2024-06-04,Medium
+MAC0045,Mixer-MAC0045,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT002,Mixer,ABB,2022-08-30,Medium
+MAC0046,Cooling Tunnel-MAC0046,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT002,Cooling Tunnel,GE,2023-09-27,Low
+MAC0047,Oven-MAC0047,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT002,Oven,Siemens,2018-05-12,High
+MAC0048,Oven-MAC0048,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT002,Oven,GE,2020-06-08,Low
+MAC0049,Cooling Tunnel-MAC0049,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT002,Cooling Tunnel,Siemens,2018-04-22,High
+MAC0050,Oven-MAC0050,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT002,Oven,GE,2020-02-16,Low
+MAC0051,Cooling Tunnel-MAC0051,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT002,Cooling Tunnel,Siemens,2020-05-26,Medium
+MAC0052,Packer-MAC0052,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT002,Packer,ABB,2023-03-22,High
+MAC0053,Mixer-MAC0053,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT002,Mixer,Bosch,2022-09-22,Medium
+MAC0054,Conveyor-MAC0054,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT002,Conveyor,Bosch,2022-02-02,Low
+MAC0055,Cooling Tunnel-MAC0055,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT002,Cooling Tunnel,GE,2019-08-30,Low
+MAC0056,Cooling Tunnel-MAC0056,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT002,Cooling Tunnel,Bosch,2018-04-14,Low
+MAC0057,Mixer-MAC0057,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT002,Mixer,Bosch,2024-08-07,Medium
+MAC0058,Cooling Tunnel-MAC0058,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT002,Cooling Tunnel,Bosch,2024-04-29,High
+MAC0059,Cooling Tunnel-MAC0059,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT002,Cooling Tunnel,Bosch,2017-06-23,High
+MAC0060,Packer-MAC0060,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT002,Packer,Siemens,2016-09-24,Low
+MAC0061,Packer-MAC0061,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT002,Packer,Bosch,2017-10-18,High
+MAC0062,Mixer-MAC0062,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT002,Mixer,Bosch,2018-07-13,High
+MAC0063,Oven-MAC0063,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT002,Oven,Siemens,2018-08-27,High
+MAC0064,Oven-MAC0064,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT002,Oven,Siemens,2023-02-11,Medium
+MAC0065,Mixer-MAC0065,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT002,Mixer,Mitsubishi,2017-01-04,High
+MAC0066,Cooling Tunnel-MAC0066,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT002,Cooling Tunnel,Siemens,2022-06-23,Low
+MAC0067,Cooling Tunnel-MAC0067,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT002,Cooling Tunnel,Siemens,2022-06-04,Medium
+MAC0068,Conveyor-MAC0068,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Conveyor,ABB,2023-11-23,Low
+MAC0069,Oven-MAC0069,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT003,Oven,Bosch,2020-03-17,Low
+MAC0070,Oven-MAC0070,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Oven,Bosch,2016-02-16,High
+MAC0071,Mixer-MAC0071,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT003,Mixer,ABB,2017-11-17,Low
+MAC0072,Mixer-MAC0072,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT003,Mixer,Bosch,2020-06-20,Medium
+MAC0073,Packer-MAC0073,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Packer,ABB,2021-09-19,High
+MAC0074,Oven-MAC0074,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Oven,Mitsubishi,2017-10-30,Low
+MAC0075,Packer-MAC0075,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Packer,Bosch,2020-12-03,Low
+MAC0076,Mixer-MAC0076,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT003,Mixer,Mitsubishi,2023-04-30,Medium
+MAC0077,Packer-MAC0077,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT003,Packer,Bosch,2018-08-15,High
+MAC0078,Cooling Tunnel-MAC0078,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT003,Cooling Tunnel,Bosch,2023-08-26,Low
+MAC0079,Mixer-MAC0079,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT003,Mixer,GE,2015-12-27,Medium
+MAC0080,Cooling Tunnel-MAC0080,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT003,Cooling Tunnel,Mitsubishi,2020-05-30,Medium
+MAC0081,Conveyor-MAC0081,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT003,Conveyor,GE,2024-06-12,High
+MAC0082,Cooling Tunnel-MAC0082,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Cooling Tunnel,ABB,2018-12-21,Medium
+MAC0083,Oven-MAC0083,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Oven,GE,2024-07-26,High
+MAC0084,Packer-MAC0084,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Packer,Mitsubishi,2017-09-28,Low
+MAC0085,Cooling Tunnel-MAC0085,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT003,Cooling Tunnel,Bosch,2021-01-03,High
+MAC0086,Cooling Tunnel-MAC0086,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT003,Cooling Tunnel,Bosch,2024-07-26,High
+MAC0087,Conveyor-MAC0087,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT003,Conveyor,Bosch,2019-04-25,High
+MAC0088,Conveyor-MAC0088,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT003,Conveyor,Mitsubishi,2018-07-13,High
+MAC0089,Cooling Tunnel-MAC0089,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Cooling Tunnel,GE,2022-04-17,Medium
+MAC0090,Packer-MAC0090,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT003,Packer,Bosch,2018-09-05,Low
+MAC0091,Conveyor-MAC0091,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT003,Conveyor,Mitsubishi,2015-12-10,Medium
+MAC0092,Cooling Tunnel-MAC0092,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT003,Cooling Tunnel,Mitsubishi,2021-06-12,High
+MAC0093,Packer-MAC0093,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT003,Packer,GE,2024-03-30,High
+MAC0094,Oven-MAC0094,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT003,Oven,ABB,2016-04-06,High
+MAC0095,Mixer-MAC0095,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT003,Mixer,ABB,2017-11-01,Low
+MAC0096,Conveyor-MAC0096,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT003,Conveyor,GE,2022-02-08,Low
+MAC0097,Cooling Tunnel-MAC0097,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT003,Cooling Tunnel,ABB,2021-02-28,High
+MAC0098,Conveyor-MAC0098,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT003,Conveyor,Mitsubishi,2020-01-02,Low
+MAC0099,Oven-MAC0099,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT003,Oven,Mitsubishi,2016-11-30,Low
+MAC0100,Oven-MAC0100,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Oven,GE,2020-01-11,Low
+MAC0101,Mixer-MAC0101,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT003,Mixer,Mitsubishi,2017-04-09,High
+MAC0102,Conveyor-MAC0102,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT003,Conveyor,GE,2017-05-22,High
+MAC0103,Cooling Tunnel-MAC0103,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT003,Cooling Tunnel,Mitsubishi,2024-03-13,Low
+MAC0104,Conveyor-MAC0104,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT003,Conveyor,Bosch,2017-02-09,Low
+MAC0105,Cooling Tunnel-MAC0105,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT003,Cooling Tunnel,Mitsubishi,2018-01-26,High
+MAC0106,Oven-MAC0106,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Oven,Bosch,2018-02-11,Low
+MAC0107,Packer-MAC0107,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT004,Packer,GE,2024-01-07,Low
+MAC0108,Mixer-MAC0108,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT004,Mixer,Mitsubishi,2018-09-28,High
+MAC0109,Oven-MAC0109,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT004,Oven,Mitsubishi,2020-06-10,Medium
+MAC0110,Conveyor-MAC0110,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Conveyor,Siemens,2024-11-27,Low
+MAC0111,Cooling Tunnel-MAC0111,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Cooling Tunnel,Siemens,2023-02-17,High
+MAC0112,Oven-MAC0112,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Oven,Bosch,2019-07-15,Medium
+MAC0113,Cooling Tunnel-MAC0113,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Cooling Tunnel,GE,2019-05-09,High
+MAC0114,Mixer-MAC0114,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT004,Mixer,Bosch,2021-03-26,Medium
+MAC0115,Conveyor-MAC0115,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT004,Conveyor,Bosch,2022-09-20,High
+MAC0116,Mixer-MAC0116,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT004,Mixer,Mitsubishi,2022-04-14,Low
+MAC0117,Conveyor-MAC0117,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT004,Conveyor,GE,2023-05-21,High
+MAC0118,Oven-MAC0118,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT004,Oven,Mitsubishi,2024-09-26,Low
+MAC0119,Oven-MAC0119,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT004,Oven,Bosch,2023-08-12,Medium
+MAC0120,Conveyor-MAC0120,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT004,Conveyor,Bosch,2017-12-27,Medium
+MAC0121,Conveyor-MAC0121,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT004,Conveyor,Bosch,2020-02-24,Low
+MAC0122,Cooling Tunnel-MAC0122,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT004,Cooling Tunnel,Siemens,2019-10-03,Medium
+MAC0123,Oven-MAC0123,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT004,Oven,Siemens,2017-01-07,Low
+MAC0124,Cooling Tunnel-MAC0124,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT004,Cooling Tunnel,ABB,2021-09-06,Low
+MAC0125,Oven-MAC0125,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT004,Oven,GE,2016-04-15,Low
+MAC0126,Packer-MAC0126,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT004,Packer,ABB,2019-11-05,High
+MAC0127,Mixer-MAC0127,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT004,Mixer,Bosch,2019-09-05,Low
+MAC0128,Packer-MAC0128,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT004,Packer,GE,2016-01-20,High
+MAC0129,Mixer-MAC0129,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT004,Mixer,Siemens,2017-02-20,High
+MAC0130,Oven-MAC0130,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT004,Oven,Bosch,2016-12-06,High
+MAC0131,Cooling Tunnel-MAC0131,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT004,Cooling Tunnel,Siemens,2019-10-29,Medium
+MAC0132,Packer-MAC0132,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT004,Packer,Siemens,2017-01-28,High
+MAC0133,Conveyor-MAC0133,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT005,Conveyor,Mitsubishi,2016-06-19,Low
+MAC0134,Conveyor-MAC0134,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT005,Conveyor,ABB,2021-07-21,Medium
+MAC0135,Cooling Tunnel-MAC0135,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT005,Cooling Tunnel,GE,2017-02-19,Medium
+MAC0136,Cooling Tunnel-MAC0136,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT005,Cooling Tunnel,Bosch,2024-09-04,Medium
+MAC0137,Packer-MAC0137,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT005,Packer,Mitsubishi,2019-12-24,Low
+MAC0138,Packer-MAC0138,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT005,Packer,Siemens,2020-09-01,Medium
+MAC0139,Conveyor-MAC0139,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT005,Conveyor,ABB,2024-03-10,Medium
+MAC0140,Packer-MAC0140,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT005,Packer,GE,2019-07-30,High
+MAC0141,Cooling Tunnel-MAC0141,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT005,Cooling Tunnel,ABB,2018-03-08,Low
+MAC0142,Conveyor-MAC0142,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT005,Conveyor,GE,2023-12-22,Low
+MAC0143,Conveyor-MAC0143,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT005,Conveyor,Mitsubishi,2020-01-24,Low
+MAC0144,Mixer-MAC0144,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT005,Mixer,Mitsubishi,2023-12-23,High
+MAC0145,Cooling Tunnel-MAC0145,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT005,Cooling Tunnel,Bosch,2022-11-09,Medium
+MAC0146,Conveyor-MAC0146,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT005,Conveyor,GE,2019-03-04,Medium
+MAC0147,Packer-MAC0147,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT005,Packer,Bosch,2017-07-15,Medium
+MAC0148,Mixer-MAC0148,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT005,Mixer,Bosch,2017-07-31,Low
+MAC0149,Mixer-MAC0149,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT005,Mixer,ABB,2023-04-07,High
+MAC0150,Cooling Tunnel-MAC0150,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT005,Cooling Tunnel,GE,2021-12-16,High
+MAC0151,Mixer-MAC0151,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT005,Mixer,Bosch,2023-02-20,Low
+MAC0152,Packer-MAC0152,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT005,Packer,Siemens,2022-12-04,High
+MAC0153,Packer-MAC0153,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT005,Packer,Siemens,2023-11-16,Low
+MAC0154,Mixer-MAC0154,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT005,Mixer,Mitsubishi,2016-11-07,Low
+MAC0155,Conveyor-MAC0155,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT005,Conveyor,Mitsubishi,2017-08-09,Medium
+MAC0156,Oven-MAC0156,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT005,Oven,Bosch,2016-12-17,Medium
+MAC0157,Conveyor-MAC0157,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT005,Conveyor,Mitsubishi,2022-10-12,Low
+MAC0158,Mixer-MAC0158,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT005,Mixer,ABB,2021-09-14,High
+MAC0159,Mixer-MAC0159,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT005,Mixer,Siemens,2017-10-15,High
+MAC0160,Cooling Tunnel-MAC0160,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT005,Cooling Tunnel,Mitsubishi,2020-02-29,Medium
+MAC0161,Cooling Tunnel-MAC0161,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT005,Cooling Tunnel,Mitsubishi,2019-03-11,Medium
+MAC0162,Cooling Tunnel-MAC0162,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT005,Cooling Tunnel,Siemens,2019-03-02,Low
+MAC0163,Packer-MAC0163,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT005,Packer,Siemens,2023-07-25,Low
+MAC0164,Cooling Tunnel-MAC0164,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT005,Cooling Tunnel,Siemens,2018-04-26,Low
+MAC0165,Conveyor-MAC0165,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT005,Conveyor,GE,2023-02-09,Medium
+MAC0166,Mixer-MAC0166,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT005,Mixer,Bosch,2019-01-20,High
+MAC0167,Oven-MAC0167,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT005,Oven,ABB,2020-09-01,Medium
+MAC0168,Conveyor-MAC0168,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT005,Conveyor,Siemens,2023-10-20,High
+MAC0169,Packer-MAC0169,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT005,Packer,ABB,2020-03-07,Low
+MAC0170,Packer-MAC0170,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT005,Packer,GE,2017-03-19,High
+MAC0171,Conveyor-MAC0171,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT005,Conveyor,Siemens,2023-06-21,Medium
+MAC0172,Conveyor-MAC0172,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT005,Conveyor,Bosch,2017-08-06,High
+MAC0173,Oven-MAC0173,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Oven,GE,2016-10-16,Low
+MAC0174,Cooling Tunnel-MAC0174,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Cooling Tunnel,Bosch,2016-03-07,Low
+MAC0175,Cooling Tunnel-MAC0175,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT006,Cooling Tunnel,GE,2017-07-08,Low
+MAC0176,Cooling Tunnel-MAC0176,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT006,Cooling Tunnel,Siemens,2019-12-14,Low
+MAC0177,Packer-MAC0177,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Packer,ABB,2018-10-05,High
+MAC0178,Oven-MAC0178,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Oven,Mitsubishi,2022-11-05,Medium
+MAC0179,Packer-MAC0179,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Packer,Siemens,2024-03-11,Low
+MAC0180,Conveyor-MAC0180,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Conveyor,Bosch,2024-02-14,High
+MAC0181,Conveyor-MAC0181,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT006,Conveyor,Siemens,2019-07-27,Medium
+MAC0182,Oven-MAC0182,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Oven,Mitsubishi,2022-10-02,High
+MAC0183,Conveyor-MAC0183,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT006,Conveyor,Siemens,2016-12-05,Low
+MAC0184,Cooling Tunnel-MAC0184,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT006,Cooling Tunnel,Mitsubishi,2018-09-25,High
+MAC0185,Mixer-MAC0185,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT006,Mixer,Bosch,2022-05-18,High
+MAC0186,Conveyor-MAC0186,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT006,Conveyor,Mitsubishi,2015-12-20,Low
+MAC0187,Mixer-MAC0187,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT006,Mixer,Bosch,2022-07-28,High
+MAC0188,Oven-MAC0188,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT006,Oven,ABB,2020-06-10,Low
+MAC0189,Mixer-MAC0189,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT006,Mixer,Mitsubishi,2023-09-03,High
+MAC0190,Conveyor-MAC0190,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Conveyor,Mitsubishi,2020-10-13,Medium
+MAC0191,Cooling Tunnel-MAC0191,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT006,Cooling Tunnel,ABB,2023-02-16,Medium
+MAC0192,Oven-MAC0192,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT006,Oven,Bosch,2024-03-18,Medium
+MAC0193,Oven-MAC0193,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Oven,Bosch,2018-07-25,High
+MAC0194,Mixer-MAC0194,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Mixer,Mitsubishi,2019-02-28,High
+MAC0195,Packer-MAC0195,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Packer,GE,2020-12-23,High
+MAC0196,Packer-MAC0196,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Packer,ABB,2019-08-20,High
+MAC0197,Mixer-MAC0197,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT006,Mixer,Mitsubishi,2016-12-04,Low
+MAC0198,Conveyor-MAC0198,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Conveyor,Mitsubishi,2016-12-19,High
+MAC0199,Conveyor-MAC0199,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT006,Conveyor,Siemens,2021-04-07,Low
+MAC0200,Oven-MAC0200,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT006,Oven,Mitsubishi,2016-11-26,Low
+MAC0201,Oven-MAC0201,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT006,Oven,ABB,2016-10-13,Medium
+MAC0202,Oven-MAC0202,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT006,Oven,Mitsubishi,2024-01-16,Medium
+MAC0203,Oven-MAC0203,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT006,Oven,Bosch,2024-06-26,High
+MAC0204,Packer-MAC0204,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT006,Packer,Mitsubishi,2018-08-11,High
+MAC0205,Mixer-MAC0205,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT006,Mixer,Bosch,2016-11-24,Low
+MAC0206,Conveyor-MAC0206,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT006,Conveyor,Siemens,2024-07-27,High
+MAC0207,Conveyor-MAC0207,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT006,Conveyor,ABB,2017-04-17,High
+MAC0208,Oven-MAC0208,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT006,Oven,Bosch,2019-02-03,Low
+MAC0209,Packer-MAC0209,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT006,Packer,Mitsubishi,2017-02-04,Low
+MAC0210,Cooling Tunnel-MAC0210,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT007,Cooling Tunnel,ABB,2017-02-01,Low
+MAC0211,Cooling Tunnel-MAC0211,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT007,Cooling Tunnel,Mitsubishi,2019-12-07,High
+MAC0212,Conveyor-MAC0212,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT007,Conveyor,GE,2022-10-19,Low
+MAC0213,Packer-MAC0213,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT007,Packer,Mitsubishi,2017-12-20,Medium
+MAC0214,Conveyor-MAC0214,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT007,Conveyor,Bosch,2020-02-13,High
+MAC0215,Oven-MAC0215,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT007,Oven,Mitsubishi,2016-08-09,Medium
+MAC0216,Conveyor-MAC0216,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT007,Conveyor,Bosch,2017-04-29,Medium
+MAC0217,Conveyor-MAC0217,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT007,Conveyor,Mitsubishi,2023-01-23,Low
+MAC0218,Cooling Tunnel-MAC0218,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT007,Cooling Tunnel,Bosch,2024-10-28,High
+MAC0219,Oven-MAC0219,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT007,Oven,Mitsubishi,2021-04-24,Medium
+MAC0220,Cooling Tunnel-MAC0220,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT007,Cooling Tunnel,Mitsubishi,2020-05-14,Medium
+MAC0221,Mixer-MAC0221,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT007,Mixer,ABB,2019-05-29,High
+MAC0222,Oven-MAC0222,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT007,Oven,Siemens,2021-04-11,Medium
+MAC0223,Cooling Tunnel-MAC0223,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT007,Cooling Tunnel,Bosch,2019-12-29,High
+MAC0224,Packer-MAC0224,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT007,Packer,Bosch,2020-06-13,High
+MAC0225,Mixer-MAC0225,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT007,Mixer,ABB,2022-08-31,High
+MAC0226,Mixer-MAC0226,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT007,Mixer,Bosch,2018-02-27,Medium
+MAC0227,Oven-MAC0227,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT007,Oven,Mitsubishi,2021-01-13,Low
+MAC0228,Conveyor-MAC0228,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT007,Conveyor,GE,2023-09-17,Medium
+MAC0229,Oven-MAC0229,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT007,Oven,Bosch,2021-04-23,High
+MAC0230,Packer-MAC0230,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT007,Packer,Bosch,2017-03-01,High
+MAC0231,Oven-MAC0231,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT007,Oven,ABB,2016-02-02,Medium
+MAC0232,Cooling Tunnel-MAC0232,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT007,Cooling Tunnel,ABB,2023-09-23,High
+MAC0233,Packer-MAC0233,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT007,Packer,Mitsubishi,2017-08-19,Low
+MAC0234,Oven-MAC0234,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT007,Oven,Bosch,2017-03-06,Medium
+MAC0235,Mixer-MAC0235,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT007,Mixer,GE,2019-07-23,Low
+MAC0236,Packer-MAC0236,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT007,Packer,GE,2024-07-15,Medium
+MAC0237,Conveyor-MAC0237,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT008,Conveyor,Siemens,2020-06-10,Medium
+MAC0238,Packer-MAC0238,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT008,Packer,Siemens,2018-03-09,High
+MAC0239,Conveyor-MAC0239,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT008,Conveyor,Mitsubishi,2021-11-13,Low
+MAC0240,Packer-MAC0240,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT008,Packer,GE,2017-02-06,High
+MAC0241,Conveyor-MAC0241,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT008,Conveyor,Bosch,2020-02-01,Low
+MAC0242,Oven-MAC0242,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT008,Oven,ABB,2022-03-21,High
+MAC0243,Oven-MAC0243,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Oven,Bosch,2020-10-11,Low
+MAC0244,Oven-MAC0244,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT008,Oven,GE,2018-08-13,Low
+MAC0245,Mixer-MAC0245,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT008,Mixer,Bosch,2023-05-21,Low
+MAC0246,Packer-MAC0246,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Packer,ABB,2021-01-28,Low
+MAC0247,Mixer-MAC0247,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT008,Mixer,Siemens,2024-12-05,High
+MAC0248,Oven-MAC0248,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT008,Oven,Bosch,2016-01-24,Low
+MAC0249,Oven-MAC0249,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT008,Oven,ABB,2021-01-09,Medium
+MAC0250,Conveyor-MAC0250,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT008,Conveyor,GE,2017-09-10,Low
+MAC0251,Conveyor-MAC0251,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Conveyor,Mitsubishi,2018-03-20,Medium
+MAC0252,Conveyor-MAC0252,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Conveyor,GE,2020-06-06,Low
+MAC0253,Cooling Tunnel-MAC0253,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Cooling Tunnel,Bosch,2017-11-23,Medium
+MAC0254,Oven-MAC0254,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Oven,Mitsubishi,2017-10-02,Medium
+MAC0255,Conveyor-MAC0255,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT008,Conveyor,Mitsubishi,2018-07-29,Low
+MAC0256,Cooling Tunnel-MAC0256,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT008,Cooling Tunnel,ABB,2020-07-25,Low
+MAC0257,Cooling Tunnel-MAC0257,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT008,Cooling Tunnel,GE,2020-09-21,High
+MAC0258,Conveyor-MAC0258,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT008,Conveyor,GE,2019-07-07,High
+MAC0259,Cooling Tunnel-MAC0259,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT008,Cooling Tunnel,GE,2021-10-06,Medium
+MAC0260,Cooling Tunnel-MAC0260,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,FCT008,Cooling Tunnel,ABB,2019-05-25,Medium
+MAC0261,Conveyor-MAC0261,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT008,Conveyor,Bosch,2020-06-03,Medium
+MAC0262,Oven-MAC0262,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT008,Oven,Bosch,2024-07-12,Medium
+MAC0263,Packer-MAC0263,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT008,Packer,ABB,2024-03-29,High
+MAC0264,Oven-MAC0264,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT008,Oven,Siemens,2020-03-15,Low
+MAC0265,Packer-MAC0265,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT008,Packer,ABB,2016-10-17,High
+MAC0266,Oven-MAC0266,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT008,Oven,Mitsubishi,2017-07-02,Medium
+MAC0267,Oven-MAC0267,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT008,Oven,Bosch,2023-02-20,High
+MAC0268,Oven-MAC0268,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT008,Oven,GE,2020-08-21,High
+MAC0269,Conveyor-MAC0269,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT008,Conveyor,ABB,2016-09-05,Low
+MAC0270,Oven-MAC0270,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT008,Oven,Bosch,2015-12-29,High
+MAC0271,Cooling Tunnel-MAC0271,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT008,Cooling Tunnel,GE,2021-08-09,High
+MAC0272,Cooling Tunnel-MAC0272,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT008,Cooling Tunnel,Bosch,2018-02-26,Low
+MAC0273,Packer-MAC0273,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT008,Packer,Bosch,2020-05-21,Medium
+MAC0274,Mixer-MAC0274,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT008,Mixer,GE,2018-09-06,High
+MAC0275,Oven-MAC0275,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT009,Oven,Siemens,2023-06-13,High
+MAC0276,Conveyor-MAC0276,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT009,Conveyor,Mitsubishi,2023-03-17,Medium
+MAC0277,Packer-MAC0277,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT009,Packer,Bosch,2016-02-05,High
+MAC0278,Oven-MAC0278,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT009,Oven,ABB,2017-11-01,Low
+MAC0279,Oven-MAC0279,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT009,Oven,Bosch,2017-03-18,Medium
+MAC0280,Conveyor-MAC0280,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT009,Conveyor,GE,2018-06-20,Medium
+MAC0281,Mixer-MAC0281,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT009,Mixer,GE,2016-07-17,Low
+MAC0282,Oven-MAC0282,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT009,Oven,Bosch,2022-03-19,High
+MAC0283,Cooling Tunnel-MAC0283,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT009,Cooling Tunnel,Bosch,2018-06-14,Low
+MAC0284,Cooling Tunnel-MAC0284,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT009,Cooling Tunnel,Siemens,2023-03-30,Low
+MAC0285,Mixer-MAC0285,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT009,Mixer,ABB,2018-02-05,Medium
+MAC0286,Oven-MAC0286,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT009,Oven,Siemens,2016-08-22,Medium
+MAC0287,Mixer-MAC0287,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT009,Mixer,ABB,2021-03-05,Medium
+MAC0288,Cooling Tunnel-MAC0288,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT009,Cooling Tunnel,GE,2022-02-18,High
+MAC0289,Conveyor-MAC0289,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT009,Conveyor,Siemens,2016-08-10,Medium
+MAC0290,Oven-MAC0290,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT009,Oven,Bosch,2022-01-07,High
+MAC0291,Conveyor-MAC0291,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT009,Conveyor,Bosch,2019-07-04,Low
+MAC0292,Packer-MAC0292,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT009,Packer,ABB,2020-03-05,High
+MAC0293,Oven-MAC0293,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT009,Oven,Mitsubishi,2017-09-05,Low
+MAC0294,Cooling Tunnel-MAC0294,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT009,Cooling Tunnel,Mitsubishi,2021-12-12,High
+MAC0295,Packer-MAC0295,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT009,Packer,Bosch,2022-11-05,Low
+MAC0296,Oven-MAC0296,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT009,Oven,GE,2018-07-24,High
+MAC0297,Packer-MAC0297,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT009,Packer,Bosch,2019-12-17,High
+MAC0298,Mixer-MAC0298,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT009,Mixer,Siemens,2018-09-11,Low
+MAC0299,Mixer-MAC0299,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT009,Mixer,GE,2018-12-11,Low
+MAC0300,Mixer-MAC0300,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT009,Mixer,Mitsubishi,2022-12-11,Medium
+MAC0301,Cooling Tunnel-MAC0301,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT009,Cooling Tunnel,GE,2016-05-09,Medium
+MAC0302,Mixer-MAC0302,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT009,Mixer,Mitsubishi,2018-12-25,Low
+MAC0303,Packer-MAC0303,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT009,Packer,Bosch,2021-08-01,High
+MAC0304,Cooling Tunnel-MAC0304,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT009,Cooling Tunnel,Siemens,2022-12-08,Medium
+MAC0305,Oven-MAC0305,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT009,Oven,Siemens,2020-02-26,Medium
+MAC0306,Oven-MAC0306,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT009,Oven,GE,2020-06-20,High
+MAC0307,Cooling Tunnel-MAC0307,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT010,Cooling Tunnel,GE,2018-08-22,High
+MAC0308,Cooling Tunnel-MAC0308,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT010,Cooling Tunnel,ABB,2017-10-08,Medium
+MAC0309,Cooling Tunnel-MAC0309,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Cooling Tunnel,ABB,2022-06-10,Low
+MAC0310,Packer-MAC0310,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT010,Packer,Siemens,2016-08-03,High
+MAC0311,Oven-MAC0311,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT010,Oven,ABB,2023-12-09,High
+MAC0312,Cooling Tunnel-MAC0312,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT010,Cooling Tunnel,GE,2019-09-19,High
+MAC0313,Packer-MAC0313,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT010,Packer,Bosch,2019-04-30,Medium
+MAC0314,Cooling Tunnel-MAC0314,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT010,Cooling Tunnel,Siemens,2023-10-06,High
+MAC0315,Oven-MAC0315,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT010,Oven,Bosch,2021-11-17,Low
+MAC0316,Packer-MAC0316,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Packer,Bosch,2021-02-14,High
+MAC0317,Packer-MAC0317,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT010,Packer,Siemens,2019-10-21,High
+MAC0318,Packer-MAC0318,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT010,Packer,Bosch,2019-09-22,High
+MAC0319,Mixer-MAC0319,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Mixer,GE,2016-05-02,High
+MAC0320,Cooling Tunnel-MAC0320,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT010,Cooling Tunnel,Mitsubishi,2019-03-21,High
+MAC0321,Cooling Tunnel-MAC0321,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT010,Cooling Tunnel,Siemens,2022-09-16,High
+MAC0322,Cooling Tunnel-MAC0322,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Cooling Tunnel,Bosch,2021-07-07,Low
+MAC0323,Mixer-MAC0323,WAFERS_LINE_3,Wafers Line 3,Wafers,FCT010,Mixer,ABB,2020-09-02,Medium
+MAC0324,Mixer-MAC0324,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT010,Mixer,ABB,2017-02-10,Low
+MAC0325,Oven-MAC0325,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT010,Oven,GE,2020-09-05,High
+MAC0326,Packer-MAC0326,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT010,Packer,GE,2021-11-26,Low
+MAC0327,Mixer-MAC0327,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Mixer,ABB,2024-08-06,Low
+MAC0328,Conveyor-MAC0328,SNACKS_LINE_2,Snacks Line 2,Snacks,FCT010,Conveyor,Siemens,2022-09-24,Medium
+MAC0329,Conveyor-MAC0329,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT010,Conveyor,GE,2021-07-25,Medium
+MAC0330,Mixer-MAC0330,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Mixer,GE,2016-05-26,Low
+MAC0331,Mixer-MAC0331,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT010,Mixer,Bosch,2017-11-22,High
+MAC0332,Conveyor-MAC0332,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Conveyor,Bosch,2020-05-17,Medium
+MAC0333,Mixer-MAC0333,SNACKS_LINE_4,Snacks Line 4,Snacks,FCT010,Mixer,ABB,2018-12-20,High
+MAC0334,Oven-MAC0334,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,FCT010,Oven,Mitsubishi,2020-06-12,Medium
+MAC0335,Cooling Tunnel-MAC0335,SNACKS_LINE_1,Snacks Line 1,Snacks,FCT010,Cooling Tunnel,Siemens,2016-07-31,Medium
+MAC0336,Packer-MAC0336,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,FCT010,Packer,Mitsubishi,2017-10-10,High
+MAC0337,Oven-MAC0337,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,FCT010,Oven,ABB,2023-04-29,Medium
+MAC0338,Conveyor-MAC0338,WAFERS_LINE_1,Wafers Line 1,Wafers,FCT010,Conveyor,Siemens,2021-10-24,Medium
+MAC0339,Mixer-MAC0339,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT010,Mixer,Mitsubishi,2021-04-08,Low
+MAC0340,Oven-MAC0340,WAFERS_LINE_2,Wafers Line 2,Wafers,FCT010,Oven,Bosch,2023-05-10,Low
+MAC0341,Mixer-MAC0341,SNACKS_LINE_3,Snacks Line 3,Snacks,FCT010,Mixer,ABB,2024-08-18,Low
+MAC0342,Mixer-MAC0342,WAFERS_LINE_4,Wafers Line 4,Wafers,FCT010,Mixer,Mitsubishi,2017-11-24,Medium
