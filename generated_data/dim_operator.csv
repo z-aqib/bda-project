@@ -1,0 +1,51 @@
+operator_id,operator_code,operator_name,experience_level,shift_pattern
+1,OPR_001,Steven Snyder,Junior,Rotational
+2,OPR_002,Scott Peterson,Junior,Morning only
+3,OPR_003,Heather Davies,Senior,Evening only
+4,OPR_004,Anthony Sanchez,Mid,Rotational
+5,OPR_005,Dr. Melissa Richardson,Mid,Night only
+6,OPR_006,Ana Suarez,Senior,Evening only
+7,OPR_007,Sean Spencer,Junior,Rotational
+8,OPR_008,Taylor Washington,Junior,Night only
+9,OPR_009,Timothy Reyes,Mid,Morning only
+10,OPR_010,Dr. Susan Boyer,Senior,Morning only
+11,OPR_011,William Williams,Mid,Evening only
+12,OPR_012,Ashley Miller,Mid,Rotational
+13,OPR_013,Sara Moore,Mid,Morning only
+14,OPR_014,Jason Watson,Mid,Evening only
+15,OPR_015,Dawn Smith,Mid,Rotational
+16,OPR_016,Jeffery Houston,Mid,Night only
+17,OPR_017,Melissa Chang,Junior,Morning only
+18,OPR_018,Mallory Phillips,Mid,Morning only
+19,OPR_019,Vincent Pearson,Junior,Evening only
+20,OPR_020,Veronica Porter,Junior,Rotational
+21,OPR_021,Maria Perez,Junior,Rotational
+22,OPR_022,Ryan Jones,Senior,Morning only
+23,OPR_023,Sean Allen,Junior,Morning only
+24,OPR_024,James Santiago,Mid,Evening only
+25,OPR_025,Donna Hernandez,Junior,Rotational
+26,OPR_026,Angelica Gibson,Senior,Rotational
+27,OPR_027,Jill Harrison,Senior,Evening only
+28,OPR_028,Dustin Williamson,Senior,Rotational
+29,OPR_029,Elizabeth Fleming,Junior,Night only
+30,OPR_030,Pamela Gray,Mid,Evening only
+31,OPR_031,Steven Ray,Junior,Evening only
+32,OPR_032,Micheal Lewis,Junior,Evening only
+33,OPR_033,Karen Berger,Junior,Evening only
+34,OPR_034,Thomas Phillips,Mid,Morning only
+35,OPR_035,Todd Cooper,Junior,Night only
+36,OPR_036,Donald Wood,Senior,Rotational
+37,OPR_037,Terry Wood,Senior,Rotational
+38,OPR_038,George Wells,Junior,Morning only
+39,OPR_039,Amanda Smith,Mid,Morning only
+40,OPR_040,Aaron Tucker,Junior,Night only
+41,OPR_041,Roy Ramsey,Senior,Morning only
+42,OPR_042,Leslie Cabrera,Mid,Rotational
+43,OPR_043,Mrs. Maria Smith,Senior,Night only
+44,OPR_044,Miranda Scott,Junior,Rotational
+45,OPR_045,Carla Long,Junior,Night only
+46,OPR_046,Crystal Horne,Mid,Rotational
+47,OPR_047,James Hill,Mid,Morning only
+48,OPR_048,Rebecca Morales,Mid,Morning only
+49,OPR_049,Charles Saunders,Junior,Night only
+50,OPR_050,Jordan Jensen,Mid,Morning only

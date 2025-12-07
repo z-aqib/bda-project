@@ -1,0 +1,322 @@
+[
+  {
+    "product_id":1,
+    "sku":"CHOCOLATTO_45G",
+    "product_name":"Chocolatto Chocochip 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":2,
+    "sku":"CHOCOLATTO_90G",
+    "product_name":"Chocolatto Chocochip 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":3,
+    "sku":"CHOCOLATTO_100G",
+    "product_name":"Chocolatto Chocochip 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":4,
+    "sku":"CHOCOLATTO_150G",
+    "product_name":"Chocolatto Chocochip 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":5,
+    "sku":"RITE_45G",
+    "product_name":"Rite Filled Biscuit 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":6,
+    "sku":"RITE_90G",
+    "product_name":"Rite Filled Biscuit 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":7,
+    "sku":"RITE_100G",
+    "product_name":"Rite Filled Biscuit 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":8,
+    "sku":"RITE_150G",
+    "product_name":"Rite Filled Biscuit 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":9,
+    "sku":"COCOMO_45G",
+    "product_name":"Cocomo Chocolate Filled 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":10,
+    "sku":"COCOMO_90G",
+    "product_name":"Cocomo Chocolate Filled 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":11,
+    "sku":"COCOMO_100G",
+    "product_name":"Cocomo Chocolate Filled 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":12,
+    "sku":"COCOMO_150G",
+    "product_name":"Cocomo Chocolate Filled 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":13,
+    "sku":"NOVITA_45G",
+    "product_name":"Novita Vanilla Cream 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":14,
+    "sku":"NOVITA_90G",
+    "product_name":"Novita Vanilla Cream 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":15,
+    "sku":"NOVITA_100G",
+    "product_name":"Novita Vanilla Cream 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":16,
+    "sku":"NOVITA_150G",
+    "product_name":"Novita Vanilla Cream 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":17,
+    "sku":"CHOCO_CHIP_45G",
+    "product_name":"Choco Chip Biscuit 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":18,
+    "sku":"CHOCO_CHIP_90G",
+    "product_name":"Choco Chip Biscuit 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":19,
+    "sku":"CHOCO_CHIP_100G",
+    "product_name":"Choco Chip Biscuit 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":20,
+    "sku":"CHOCO_CHIP_150G",
+    "product_name":"Choco Chip Biscuit 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":21,
+    "sku":"CREAM_CRACKER_45G",
+    "product_name":"Cream Cracker 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  },
+  {
+    "product_id":22,
+    "sku":"CREAM_CRACKER_90G",
+    "product_name":"Cream Cracker 90g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":90
+  },
+  {
+    "product_id":23,
+    "sku":"CREAM_CRACKER_100G",
+    "product_name":"Cream Cracker 100g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":24,
+    "sku":"CREAM_CRACKER_150G",
+    "product_name":"Cream Cracker 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":25,
+    "sku":"SNACK_31_200G",
+    "product_name":"Two Biscuit 200g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":200
+  },
+  {
+    "product_id":26,
+    "sku":"SNACK_46_30G",
+    "product_name":"Walk Biscuit 30g",
+    "category":"Snack",
+    "brand":"Bisconni",
+    "pack_size_g":30
+  },
+  {
+    "product_id":27,
+    "sku":"SNACK_56_150G",
+    "product_name":"Special Biscuit 150g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":150
+  },
+  {
+    "product_id":28,
+    "sku":"SNACK_56_100G",
+    "product_name":"Program Biscuit 100g",
+    "category":"Snack",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":29,
+    "sku":"SNACK_83_75G",
+    "product_name":"Process Biscuit 75g",
+    "category":"Wafer",
+    "brand":"Bisconni",
+    "pack_size_g":75
+  },
+  {
+    "product_id":30,
+    "sku":"SNACK_43_30G",
+    "product_name":"Huge Biscuit 30g",
+    "category":"Wafer",
+    "brand":"Bisconni",
+    "pack_size_g":30
+  },
+  {
+    "product_id":31,
+    "sku":"SNACK_46_200G",
+    "product_name":"Travel Biscuit 200g",
+    "category":"Snack",
+    "brand":"Bisconni",
+    "pack_size_g":200
+  },
+  {
+    "product_id":32,
+    "sku":"SNACK_28_100G",
+    "product_name":"Loss Biscuit 100g",
+    "category":"Snack",
+    "brand":"Bisconni",
+    "pack_size_g":100
+  },
+  {
+    "product_id":33,
+    "sku":"SNACK_87_60G",
+    "product_name":"Newspaper Biscuit 60g",
+    "category":"Wafer",
+    "brand":"Bisconni",
+    "pack_size_g":60
+  },
+  {
+    "product_id":34,
+    "sku":"SNACK_12_75G",
+    "product_name":"Attack Biscuit 75g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":75
+  },
+  {
+    "product_id":35,
+    "sku":"SNACK_83_60G",
+    "product_name":"Author Biscuit 60g",
+    "category":"Wafer",
+    "brand":"Bisconni",
+    "pack_size_g":60
+  },
+  {
+    "product_id":36,
+    "sku":"SNACK_74_75G",
+    "product_name":"Spend Biscuit 75g",
+    "category":"Snack",
+    "brand":"Bisconni",
+    "pack_size_g":75
+  },
+  {
+    "product_id":37,
+    "sku":"SNACK_24_120G",
+    "product_name":"Tend Biscuit 120g",
+    "category":"Wafer",
+    "brand":"Bisconni",
+    "pack_size_g":120
+  },
+  {
+    "product_id":38,
+    "sku":"SNACK_77_30G",
+    "product_name":"Collection Biscuit 30g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":30
+  },
+  {
+    "product_id":39,
+    "sku":"SNACK_77_60G",
+    "product_name":"Idea Biscuit 60g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":60
+  },
+  {
+    "product_id":40,
+    "sku":"SNACK_97_45G",
+    "product_name":"Structure Biscuit 45g",
+    "category":"Biscuit",
+    "brand":"Bisconni",
+    "pack_size_g":45
+  }
+]

@@ -1,0 +1,5 @@
+sensor_type_id,sensor_type_code,sensor_type_name,unit,typical_min,typical_max
+1,TEMP,Temperature,C,180.0,230.0
+2,VIB,Vibration,mm/s,2.0,6.0
+3,CURR,Current,A,10.0,30.0
+4,HUM,Humidity,%,30.0,60.0

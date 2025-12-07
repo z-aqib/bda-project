@@ -1,0 +1,79 @@
+machine_id,machine_code,machine_name,line_code,line_name,product_family,factory_id,machine_type,vendor,install_date,criticality
+1,CON_001,Conveyor-001,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Conveyor,GE,2024-12-01,Medium
+2,MIX_002,Mixer-002,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Mixer,Siemens,2018-08-03,Medium
+3,OVE_003,Oven-003,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,1,Oven,GE,2022-06-22,Medium
+4,PAC_004,Packer-004,SNACKS_LINE_1,Snacks Line 1,Snacks,1,Packer,Siemens,2016-07-08,Medium
+5,PAC_005,Packer-005,WAFERS_LINE_3,Wafers Line 3,Wafers,1,Packer,Mitsubishi,2024-06-14,Low
+6,PAC_006,Packer-006,WAFERS_LINE_1,Wafers Line 1,Wafers,1,Packer,GE,2017-09-15,Low
+7,COO_007,Cooling Tunnel-007,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,1,Cooling Tunnel,ABB,2020-11-03,Medium
+8,OVE_008,Oven-008,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,1,Oven,Siemens,2021-09-28,Medium
+9,COO_009,Cooling Tunnel-009,SNACKS_LINE_4,Snacks Line 4,Snacks,1,Cooling Tunnel,Siemens,2023-03-03,Low
+10,OVE_010,Oven-010,SNACKS_LINE_3,Snacks Line 3,Snacks,1,Oven,Bosch,2022-02-03,Medium
+11,PAC_011,Packer-011,WAFERS_LINE_4,Wafers Line 4,Wafers,2,Packer,ABB,2017-09-23,Medium
+12,CON_012,Conveyor-012,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Conveyor,GE,2016-10-31,Low
+13,COO_013,Cooling Tunnel-013,WAFERS_LINE_2,Wafers Line 2,Wafers,2,Cooling Tunnel,Mitsubishi,2019-07-29,Medium
+14,OVE_014,Oven-014,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Oven,Bosch,2016-10-26,Medium
+15,OVE_015,Oven-015,WAFERS_LINE_4,Wafers Line 4,Wafers,2,Oven,Mitsubishi,2018-02-20,Medium
+16,OVE_016,Oven-016,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,2,Oven,ABB,2017-04-17,High
+17,OVE_017,Oven-017,SNACKS_LINE_3,Snacks Line 3,Snacks,2,Oven,Bosch,2017-03-01,High
+18,MIX_018,Mixer-018,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,2,Mixer,GE,2024-04-18,Medium
+19,OVE_019,Oven-019,SNACKS_LINE_1,Snacks Line 1,Snacks,2,Oven,Siemens,2023-05-19,High
+20,MIX_020,Mixer-020,WAFERS_LINE_2,Wafers Line 2,Wafers,2,Mixer,GE,2020-03-19,High
+21,PAC_021,Packer-021,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,3,Packer,Bosch,2018-04-05,Medium
+22,OVE_022,Oven-022,SNACKS_LINE_4,Snacks Line 4,Snacks,3,Oven,Siemens,2021-07-04,Medium
+23,CON_023,Conveyor-023,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Conveyor,ABB,2017-08-11,Low
+24,COO_024,Cooling Tunnel-024,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Cooling Tunnel,ABB,2020-07-31,Low
+25,CON_025,Conveyor-025,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Conveyor,ABB,2021-09-11,High
+26,PAC_026,Packer-026,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Packer,ABB,2019-09-22,Medium
+27,CON_027,Conveyor-027,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Conveyor,GE,2024-02-18,Medium
+28,COO_028,Cooling Tunnel-028,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Cooling Tunnel,GE,2021-04-14,Low
+29,OVE_029,Oven-029,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Oven,Bosch,2015-12-22,Low
+30,COO_030,Cooling Tunnel-030,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,3,Cooling Tunnel,GE,2021-02-02,Medium
+31,PAC_031,Packer-031,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Packer,GE,2016-05-29,Low
+32,OVE_032,Oven-032,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,3,Oven,Siemens,2019-09-16,Low
+33,PAC_033,Packer-033,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Packer,GE,2021-10-24,High
+34,COO_034,Cooling Tunnel-034,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Cooling Tunnel,Siemens,2016-09-27,High
+35,OVE_035,Oven-035,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Oven,Mitsubishi,2021-07-29,Medium
+36,PAC_036,Packer-036,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Packer,Bosch,2023-02-02,Medium
+37,COO_037,Cooling Tunnel-037,SNACKS_LINE_1,Snacks Line 1,Snacks,3,Cooling Tunnel,Siemens,2018-12-30,High
+38,OVE_038,Oven-038,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,3,Oven,Mitsubishi,2016-01-12,Medium
+39,OVE_039,Oven-039,WAFERS_LINE_4,Wafers Line 4,Wafers,3,Oven,GE,2024-06-22,High
+40,COO_040,Cooling Tunnel-040,WAFERS_LINE_3,Wafers Line 3,Wafers,3,Cooling Tunnel,GE,2021-09-08,Medium
+41,COO_041,Cooling Tunnel-041,SNACKS_LINE_3,Snacks Line 3,Snacks,3,Cooling Tunnel,Siemens,2018-09-28,Medium
+42,COO_042,Cooling Tunnel-042,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,4,Cooling Tunnel,ABB,2016-02-25,High
+43,PAC_043,Packer-043,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Packer,Siemens,2021-08-15,High
+44,MIX_044,Mixer-044,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,4,Mixer,Siemens,2017-01-19,Low
+45,COO_045,Cooling Tunnel-045,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,4,Cooling Tunnel,Bosch,2023-10-24,Medium
+46,PAC_046,Packer-046,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Packer,Mitsubishi,2019-11-15,Low
+47,MIX_047,Mixer-047,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Mixer,Bosch,2016-09-02,Medium
+48,CON_048,Conveyor-048,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Conveyor,Siemens,2018-08-07,Medium
+49,OVE_049,Oven-049,SNACKS_LINE_2,Snacks Line 2,Snacks,4,Oven,Bosch,2019-09-15,Low
+50,OVE_050,Oven-050,SNACKS_LINE_1,Snacks Line 1,Snacks,4,Oven,GE,2019-12-18,High
+51,COO_051,Cooling Tunnel-051,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Cooling Tunnel,Mitsubishi,2021-02-10,Low
+52,COO_052,Cooling Tunnel-052,SNACKS_LINE_2,Snacks Line 2,Snacks,4,Cooling Tunnel,Bosch,2019-07-03,Low
+53,CON_053,Conveyor-053,SNACKS_LINE_1,Snacks Line 1,Snacks,4,Conveyor,Siemens,2020-02-03,Low
+54,COO_054,Cooling Tunnel-054,WAFERS_LINE_4,Wafers Line 4,Wafers,4,Cooling Tunnel,Mitsubishi,2023-01-08,High
+55,MIX_055,Mixer-055,SNACKS_LINE_3,Snacks Line 3,Snacks,4,Mixer,Siemens,2016-12-05,Low
+56,COO_056,Cooling Tunnel-056,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Cooling Tunnel,GE,2019-12-08,High
+57,COO_057,Cooling Tunnel-057,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,4,Cooling Tunnel,Bosch,2024-05-29,Low
+58,CON_058,Conveyor-058,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,4,Conveyor,Bosch,2020-10-04,Low
+59,MIX_059,Mixer-059,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Mixer,ABB,2016-12-04,Low
+60,COO_060,Cooling Tunnel-060,WAFERS_LINE_1,Wafers Line 1,Wafers,4,Cooling Tunnel,Siemens,2020-08-21,Medium
+61,PAC_061,Packer-061,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Packer,GE,2020-07-06,Medium
+62,PAC_062,Packer-062,BISCUITS_LINE_2,Biscuits Line 2,Biscuits,4,Packer,Siemens,2016-02-04,Medium
+63,PAC_063,Packer-063,WAFERS_LINE_4,Wafers Line 4,Wafers,4,Packer,Bosch,2022-06-03,Medium
+64,COO_064,Cooling Tunnel-064,SNACKS_LINE_4,Snacks Line 4,Snacks,4,Cooling Tunnel,Bosch,2020-12-30,Medium
+65,CON_065,Conveyor-065,BISCUITS_LINE_1,Biscuits Line 1,Biscuits,5,Conveyor,Siemens,2019-12-13,Low
+66,COO_066,Cooling Tunnel-066,WAFERS_LINE_4,Wafers Line 4,Wafers,5,Cooling Tunnel,Mitsubishi,2020-06-24,High
+67,PAC_067,Packer-067,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Packer,Bosch,2019-07-07,Low
+68,PAC_068,Packer-068,WAFERS_LINE_4,Wafers Line 4,Wafers,5,Packer,Mitsubishi,2024-11-08,Low
+69,MIX_069,Mixer-069,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,5,Mixer,GE,2020-01-09,High
+70,MIX_070,Mixer-070,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Mixer,Bosch,2018-11-06,Medium
+71,CON_071,Conveyor-071,BISCUITS_LINE_3,Biscuits Line 3,Biscuits,5,Conveyor,Bosch,2023-05-06,Low
+72,COO_072,Cooling Tunnel-072,WAFERS_LINE_3,Wafers Line 3,Wafers,5,Cooling Tunnel,ABB,2016-05-30,Low
+73,OVE_073,Oven-073,BISCUITS_LINE_4,Biscuits Line 4,Biscuits,5,Oven,GE,2020-09-18,High
+74,MIX_074,Mixer-074,SNACKS_LINE_2,Snacks Line 2,Snacks,5,Mixer,Siemens,2017-01-18,High
+75,PAC_075,Packer-075,SNACKS_LINE_3,Snacks Line 3,Snacks,5,Packer,GE,2018-10-20,High
+76,CON_076,Conveyor-076,SNACKS_LINE_1,Snacks Line 1,Snacks,5,Conveyor,Bosch,2021-04-08,Medium
+77,OVE_077,Oven-077,SNACKS_LINE_3,Snacks Line 3,Snacks,5,Oven,Bosch,2015-12-31,Medium
+78,MIX_078,Mixer-078,WAFERS_LINE_3,Wafers Line 3,Wafers,5,Mixer,GE,2020-08-28,High

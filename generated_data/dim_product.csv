@@ -1,0 +1,41 @@
+product_id,sku,product_name,category,brand,pack_size_g
+1,CHOCOLATTO_45G,Chocolatto Chocochip 45g,Biscuit,Bisconni,45
+2,CHOCOLATTO_90G,Chocolatto Chocochip 90g,Biscuit,Bisconni,90
+3,CHOCOLATTO_100G,Chocolatto Chocochip 100g,Biscuit,Bisconni,100
+4,CHOCOLATTO_150G,Chocolatto Chocochip 150g,Biscuit,Bisconni,150
+5,RITE_45G,Rite Filled Biscuit 45g,Biscuit,Bisconni,45
+6,RITE_90G,Rite Filled Biscuit 90g,Biscuit,Bisconni,90
+7,RITE_100G,Rite Filled Biscuit 100g,Biscuit,Bisconni,100
+8,RITE_150G,Rite Filled Biscuit 150g,Biscuit,Bisconni,150
+9,COCOMO_45G,Cocomo Chocolate Filled 45g,Biscuit,Bisconni,45
+10,COCOMO_90G,Cocomo Chocolate Filled 90g,Biscuit,Bisconni,90
+11,COCOMO_100G,Cocomo Chocolate Filled 100g,Biscuit,Bisconni,100
+12,COCOMO_150G,Cocomo Chocolate Filled 150g,Biscuit,Bisconni,150
+13,NOVITA_45G,Novita Vanilla Cream 45g,Biscuit,Bisconni,45
+14,NOVITA_90G,Novita Vanilla Cream 90g,Biscuit,Bisconni,90
+15,NOVITA_100G,Novita Vanilla Cream 100g,Biscuit,Bisconni,100
+16,NOVITA_150G,Novita Vanilla Cream 150g,Biscuit,Bisconni,150
+17,CHOCO_CHIP_45G,Choco Chip Biscuit 45g,Biscuit,Bisconni,45
+18,CHOCO_CHIP_90G,Choco Chip Biscuit 90g,Biscuit,Bisconni,90
+19,CHOCO_CHIP_100G,Choco Chip Biscuit 100g,Biscuit,Bisconni,100
+20,CHOCO_CHIP_150G,Choco Chip Biscuit 150g,Biscuit,Bisconni,150
+21,CREAM_CRACKER_45G,Cream Cracker 45g,Biscuit,Bisconni,45
+22,CREAM_CRACKER_90G,Cream Cracker 90g,Biscuit,Bisconni,90
+23,CREAM_CRACKER_100G,Cream Cracker 100g,Biscuit,Bisconni,100
+24,CREAM_CRACKER_150G,Cream Cracker 150g,Biscuit,Bisconni,150
+25,SNACK_31_200G,Two Biscuit 200g,Biscuit,Bisconni,200
+26,SNACK_46_30G,Walk Biscuit 30g,Snack,Bisconni,30
+27,SNACK_56_150G,Special Biscuit 150g,Biscuit,Bisconni,150
+28,SNACK_56_100G,Program Biscuit 100g,Snack,Bisconni,100
+29,SNACK_83_75G,Process Biscuit 75g,Wafer,Bisconni,75
+30,SNACK_43_30G,Huge Biscuit 30g,Wafer,Bisconni,30
+31,SNACK_46_200G,Travel Biscuit 200g,Snack,Bisconni,200
+32,SNACK_28_100G,Loss Biscuit 100g,Snack,Bisconni,100
+33,SNACK_87_60G,Newspaper Biscuit 60g,Wafer,Bisconni,60
+34,SNACK_12_75G,Attack Biscuit 75g,Biscuit,Bisconni,75
+35,SNACK_83_60G,Author Biscuit 60g,Wafer,Bisconni,60
+36,SNACK_74_75G,Spend Biscuit 75g,Snack,Bisconni,75
+37,SNACK_24_120G,Tend Biscuit 120g,Wafer,Bisconni,120
+38,SNACK_77_30G,Collection Biscuit 30g,Biscuit,Bisconni,30
+39,SNACK_77_60G,Idea Biscuit 60g,Biscuit,Bisconni,60
+40,SNACK_97_45G,Structure Biscuit 45g,Biscuit,Bisconni,45
