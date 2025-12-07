@@ -1,0 +1,31 @@
+Assalamoalaikum
+
+In this project, you are supposed to implement a real-time BDA pipeline.
+
+Please note that the application has to be completely dockerized
+
+ 
+
+The managers need to see a dashboard based on your selected KPIs (facts) and dimensions (queryable features/columns).
+
+1) Select a business domain that is based on real-time data streams (ecommerce, IoT, supply chain for inventory optimization etc.) 
+
+2) Figure out a business problem for this domain which requires real-time data analytics. Justify. [1%]
+ 
+3) Generate real-time streaming data for the selected domain (use AI generators which are based on statistical properties rather than random generators) [2%]
+
+Schema should be spread over multiple tables requiring joins. At least 5 numerical facts (KPIs) should be there and at least 5-10 dimensions (location, date, customer etc.) which are used in join-based queries in where, groupby, having keywords. You can make your own assumptions. This is just my recommendation because BI dashboards are based on dimensional queries which require joins.
+
+Show your schema and provide data dictionary. 
+
+4) The total size of the data should be at least 300 MB at any time. You will be continuously generating real-time data. So, if the size exceeds 300 MB (due to continuous data being generated), then start archiving the current one. Mention your archiving policy and the archiving database. Also mention the metadata format and storage policy. Justify. [2%]
+
+5) Draw the big data architecture you will use: ingestion, data storage, metadata storage, archive storage, extraction of data from storage for analytics and its placement in a staging area for cleaning and transformation, the actual analytics and display on BI charts. Use cache for speeding up processing between the layers in case of data transfers. [5%]
+
+6) The whole process should be handled with Airflow (orchestration), Docker, Hadoop (metadata and archive data), Mongo (main storage of fresh streaming data), Spark (processing, analytics, OLAP queries, generation of data for BI charts based on SQL), and BI tool/API (for showing the dashboard) [8%]
+
+7) Live update of the dashboard per minute (for demo purposes) is required - live updates through changing dashboards should be visible. This is done by continuously generating the data and putting it in your Airflow pipeline. [2%]
+
+ 
+
+Submit report, all code with explanation, and demo video. Also, proof that both members worked :)
