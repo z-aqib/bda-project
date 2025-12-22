@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  data-generator:
+    build: .
+    container_name: data-generator
+    restart: always
+    networks:
+      - bda-network
+
+networks:
+  bda-network:
+    external: true
