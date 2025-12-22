@@ -17,11 +17,11 @@ producer = KafkaProducer(
 TOPIC = "iot_sensor_stream"
 
 # --- Load dimension IDs from CSVs ---
-factories = pd.read_csv(r".\static_data\dim_factory.csv")['factory_id'].tolist()
-machines = pd.read_csv(r".\static_data\dim_machine.csv")['machine_id'].tolist()
-sensor_types = pd.read_csv(r".\static_data\dim_sensor_type.csv")['sensor_type_id'].tolist()
-operators = pd.read_csv(r".\static_data\dim_operator.csv")['operator_id'].tolist()
-products = pd.read_csv(r".\static_data\dim_product.csv")['product_id'].tolist()
+factories = pd.read_csv("static_data/dim_factory.csv")['factory_id'].tolist()
+machines = pd.read_csv("static_data/dim_machine.csv")['machine_id'].tolist()
+sensor_types = pd.read_csv("static_data/dim_sensor_type.csv")['sensor_type_id'].tolist()
+operators = pd.read_csv("static_data/dim_operator.csv")['operator_id'].tolist()
+products = pd.read_csv("static_data/dim_product.csv")['product_id'].tolist()
 
 # --- Settings ---
 missing_probability = 0.05       # 5% chance to skip a reading
