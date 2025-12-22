@@ -1,15 +1,27 @@
+from kafka import KafkaProducer
 import pandas as pd
 import random
 from datetime import datetime, timedelta
 import time
 import json
 
+producer = KafkaProducer(
+    bootstrap_servers=[
+        "kafka1:9092",
+        "kafka2:9092",
+        "kafka3:9092"
+    ],
+    value_serializer=lambda v: json.dumps(v).encode("utf-8")
+)
+
+TOPIC = "iot_sensor_stream"
+
 # --- Load dimension IDs from CSVs ---
-factories = pd.read_csv(r".\dim_factory.csv")['factory_id'].tolist()
-machines = pd.read_csv(r".\dim_machine.csv")['machine_id'].tolist()
-sensor_types = pd.read_csv(r".\dim_sensor_type.csv")['sensor_type_id'].tolist()
-operators = pd.read_csv(r".\dim_operator.csv")['operator_id'].tolist()
-products = pd.read_csv(r".\dim_product.csv")['product_id'].tolist()
+factories = pd.read_csv(r".\static_data\dim_factory.csv")['factory_id'].tolist()
+machines = pd.read_csv(r".\static_data\dim_machine.csv")['machine_id'].tolist()
+sensor_types = pd.read_csv(r".\static_data\dim_sensor_type.csv")['sensor_type_id'].tolist()
+operators = pd.read_csv(r".\static_data\dim_operator.csv")['operator_id'].tolist()
+products = pd.read_csv(r".\static_data\dim_product.csv")['product_id'].tolist()
 
 # --- Settings ---
 missing_probability = 0.05       # 5% chance to skip a reading
@@ -56,9 +68,10 @@ def iot_data_stream():
             for sensor_id in sensor_types:
                 if random.random() < missing_probability:
                     continue  # skip some readings
-                record = generate_iot_record(current_time, machine_id, sensor_id, current_product)
-                # In Kafka, you'd produce JSON record here
-                print(json.dumps(record))  # Demo: printing records
+                event = generate_iot_record(current_time, machine_id, sensor_id, current_product)
+                producer.send(TOPIC, event)
+                print("Sent:", event)
+ 
 
         # Increment time by 1 second
         current_time += timedelta(seconds=publish_interval_seconds)
