@@ -13,17 +13,6 @@ df = spark.read.format("mongodb").load()
 # Convert event_timestamp to timestamp type
 df = df.withColumn("event_timestamp", to_timestamp("event_timestamp", "yyyy-MM-dd HH:mm:ss"))
 
-# Example KPIs: average, max, min readings per machine
-kpi_df = df.groupBy("machine_id").agg(
-    avg("reading_value").alias("avg_reading"),
-    max("reading_value").alias("max_reading"),
-    min("reading_value").alias("min_reading"),
-    count("*").alias("total_readings"),
-    sum(when(df.is_downtime == True, 1).otherwise(0)).alias("downtime_events"),
-    sum(when(df.planned_downtime == True, 1).otherwise(0)).alias("planned_downtime_events")
-)
-
-kpi_df.show()
 
 # Optional: average reading per machine per day
 daily_df = df.withColumn("event_date", to_date("event_timestamp")) \

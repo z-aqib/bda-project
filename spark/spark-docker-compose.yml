@@ -10,6 +10,8 @@ services:
       - ./:/app
     networks:
       - bda-network
+    ports:
+      - "4040:4040"   # Spark UI
     command: sleep infinity
 
 networks:
