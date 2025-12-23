@@ -14,7 +14,7 @@ df = spark.read \
 df.printSchema()
 
 # Example KPIs
-kpi_df = df.groupBy("device_id").agg(
+kpi_df = df.groupBy("machine_id").agg(
     avg("temperature").alias("avg_temperature"),
     max("temperature").alias("max_temperature"),
     min("temperature").alias("min_temperature"),
