@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  kafka-mongo-consumer:
+    build: .
+    container_name: kafka-mongo-consumer
+    restart: always
+    networks:
+      - bda-network
+
+networks:
+  bda-network:
+    external: true
