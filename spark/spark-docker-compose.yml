@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  spark:
+    image: bitnami/spark:3.4
+    container_name: spark
+    environment:
+      - SPARK_MODE=client
+    volumes:
+      - ./:/app
+    networks:
+      - bda-network
+    command: sleep infinity
+
+networks:
+  bda-network:
+    external: true
