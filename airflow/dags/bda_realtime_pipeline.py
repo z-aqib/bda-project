@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.bash import BashOperator
+from airflow.utils.trigger_rule import TriggerRule
 from datetime import datetime, timedelta, timezone
 import os
 import json
@@ -186,7 +187,11 @@ with DAG(
                     except FileNotFoundError:
                         pass
                     try:
-                        _hdfs(hdfs_container, f"rm -f '{tmp_path}' || true")  # harmless
+                        # cleanup tmp file inside namenode container (linux rm)
+                        subprocess.run(
+                            ["/usr/bin/docker", "exec", "-i", hdfs_container, "bash", "-lc", f"rm -f '{tmp_path}' || true"],
+                            check=False,
+                        )
                     except Exception:
                         pass
 
