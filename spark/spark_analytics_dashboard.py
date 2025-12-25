@@ -23,7 +23,7 @@ from pyspark.sql import SparkSession, functions as F
 # CONFIG
 # =========================
 
-LOOKBACK_MINUTES = 60
+LOOKBACK_MINUTES = 6000
 
 # Mongo (Docker service name)
 MONGO_URI = "mongodb://mongo:27017/iot_database"
