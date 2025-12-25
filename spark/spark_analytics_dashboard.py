@@ -94,20 +94,21 @@ events = (
     .option("database", MONGO_DB)
     .option("collection", MONGO_COLLECTION)
     .load()
-    .withColumn("event_timestamp_utc", F.to_timestamp("event_timestamp_utc"))
+    .withColumn("event_timestamp_utc", F.to_timestamp(F.col("event_timestamp"), "yyyy-MM-dd HH:mm:ss"))
     .withColumn("machine_id", F.col("machine_id").cast("int"))
     .withColumn("sensor_type_id", F.col("sensor_type_id").cast("int"))
     .withColumn("product_id", F.col("product_id").cast("int"))
     .withColumn("reading_value", F.col("reading_value").cast("double"))
     .filter(
-        F.col("event_timestamp_utc")
-        >= F.expr(f"timestampadd(MINUTE, -{LOOKBACK_MINUTES}, current_timestamp())")
+        F.col("event_timestamp_utc") >= F.expr(f"current_timestamp() - INTERVAL {LOOKBACK_MINUTES} MINUTES")
     )
 )
 
 # =========================
 # ENRICH EVENTS
 # =========================
+
+events = events.drop("factory_id")
 
 events = (
     events
