@@ -353,7 +353,7 @@ def main() -> None:
     # Snapshot table should be append (keeps history of rankings over time)
     write_postgres(agg_top_machines_last60, "agg_top_machines_last60", mode=WRITE_MODE_SNAPSHOT_TABLES, truncate=False)
 
-    print("✅ Spark analytics completed: aggregates written to Postgres.")
+    print("Spark analytics completed: aggregates written to Postgres.")
 
 
 if __name__ == "__main__":
