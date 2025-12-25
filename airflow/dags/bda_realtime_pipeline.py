@@ -14,9 +14,10 @@ def _env(name: str, default: str) -> str:
     return os.environ.get(name, default)
 
 
-def _docker_exec(container: str, cmd: list[str]) -> None:
+def _hdfs(container: str, cmd: str) -> None:
+    # bde2020 images: hdfs lives under /opt/hadoop-3.2.1/bin
     subprocess.run(
-        ["/usr/bin/docker", "exec", "-i", container] + cmd,
+        ["/usr/bin/docker", "exec", "-i", container, "bash", "-lc", f"export PATH=/opt/hadoop-3.2.1/bin:$PATH; {cmd}"],
         check=True,
     )
 
@@ -103,8 +104,8 @@ with DAG(
             coll = client[mongo_db][mongo_coll]
 
             # Create HDFS dirs once
-            _docker_exec(hdfs_container, ["hdfs", "dfs", "-mkdir", "-p", hdfs_archive_dir])
-            _docker_exec(hdfs_container, ["hdfs", "dfs", "-mkdir", "-p", hdfs_metadata_dir])
+            _hdfs(hdfs_container, f"hdfs dfs -mkdir -p '{hdfs_archive_dir}'")
+            _hdfs(hdfs_container, f"hdfs dfs -mkdir -p '{hdfs_metadata_dir}'")
 
             run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "_" + uuid.uuid4().hex[:8]
             total_archived = 0
@@ -160,7 +161,7 @@ with DAG(
                             ["bash", "-lc", f"cat {data_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{base}'"],
                             check=True,
                         )
-                        _docker_exec(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
+                        _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
 
                         # delete corresponding docs (by ids)
                         del_res = coll.delete_many({"_id": {"$in": buffer_ids}})
@@ -197,7 +198,7 @@ with DAG(
                         ["bash", "-lc", f"cat {data_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{base}'"],
                         check=True,
                     )
-                    _docker_exec(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
+                    _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
 
                     del_res = coll.delete_many({"_id": {"$in": buffer_ids}})
                     total_deleted += int(del_res.deleted_count)
@@ -244,7 +245,7 @@ with DAG(
                     ["bash", "-lc", f"cat {meta_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{meta_base}'"],
                     check=True,
                 )
-                _docker_exec(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{meta_base}", hdfs_meta_path])
+                _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{meta_base}", hdfs_meta_path])
 
                 try:
                     os.remove(meta_file)
