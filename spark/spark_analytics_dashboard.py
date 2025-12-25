@@ -54,6 +54,8 @@ spark = (
     .appName("RealTime_KPI_And_Alerts")
     .config("spark.jars.packages", SPARK_PACKAGES)
     .config("spark.sql.session.timeZone", "UTC")
+    .config("spark.mongodb.read.connection.uri", MONGO_URI)
+    .config("spark.mongodb.write.connection.uri", MONGO_URI)
     .getOrCreate()
 )
 
@@ -88,7 +90,7 @@ dim_sensor = (
 
 events = (
     spark.read.format("mongodb")
-    .option("uri", MONGO_URI)
+    .option("connection.uri", MONGO_URI)   # <-- IMPORTANT
     .option("database", MONGO_DB)
     .option("collection", MONGO_COLLECTION)
     .load()
