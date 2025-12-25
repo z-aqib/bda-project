@@ -1,416 +1,426 @@
 """
-Mongo (raw + dims)  --> Spark SQL aggregates --> Postgres (analytics tables)
+spark_analytics_dashboard.py
+MongoDB (hot data) -> Spark batch micro-loop -> PostgreSQL (KPIs + Alerts)
 
-Creates 5 KPI outputs (tables) in ONE Postgres DB:
-1) kpi_minute_machine        (minute-level machine KPIs, joined labels)
-2) kpi_hourly_factory        (hour-level factory KPIs, trend)
-3) kpi_daily_machine         (daily machine performance, reliability)
-4) kpi_daily_product         (daily product impact KPIs)
-5) kpi_alert_events          (derived alert feed from sensor thresholds)
+Tables written:
+- agg_overall_minute
+- agg_factory_minute
+- agg_machine_minute
+- agg_product_minute
+- fact_machine_alert_events
 
-Run (example):
-spark-submit \
-  --packages org.mongodb.spark:mongo-spark-connector_2.12:3.0.2,org.postgresql:postgresql:42.7.3 \
-  spark_analytics_postgres_kpis.py
-
-Schedule every 1 minute using Airflow later.
+Optional:
+- fact_machine_sensor_events (raw facts appended from Mongo)
 """
 
-from __future__ import annotations
-import os
-from pyspark.sql import SparkSession, DataFrame
+import time
+from datetime import datetime, timezone
+
+import psycopg2
+from psycopg2.extras import execute_values
+
+from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from pyspark.sql.window import Window
 
 
-# -------------------------
-# CONFIG (edit here)
-# -------------------------
-MONGO_HOST = os.getenv("MONGO_HOST", "mongo")
-MONGO_PORT = os.getenv("MONGO_PORT", "27017")
-MONGO_DB   = os.getenv("MONGO_DB", "iot_database")
+# ============================================================
+# Config
+# ============================================================
 
-MONGO_URI = os.getenv("MONGO_URI", f"mongodb://{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}")
+# How often to run the batch loop
+BATCH_INTERVAL_SECONDS = 60
 
-PG_HOST = os.getenv("POSTGRES_HOST", "postgres")
-PG_PORT = os.getenv("POSTGRES_PORT", "5432")
-PG_DB   = os.getenv("POSTGRES_DB", "analytics_db")
-PG_USER = os.getenv("POSTGRES_USER", "analytics_user")
-PG_PASS = os.getenv("POSTGRES_PASS", "analytics_pass")
-PG_URL  = os.getenv("POSTGRES_JDBC_URL", f"jdbc:postgresql://{PG_HOST}:{PG_PORT}/{PG_DB}")
+# How much hot data to re-read each loop (for correction / late events)
+LOOKBACK_MINUTES = 60
 
-# Windows for “live” analytics
-LAST_N_MINUTES = int(os.getenv("LAST_N_MINUTES", "180"))  # recompute last 3 hours minute KPIs
-LAST_N_DAYS    = int(os.getenv("LAST_N_DAYS", "14"))      # daily aggregates last 2 weeks
+# Toggle: write raw events into Postgres fact table as well
+WRITE_RAW_EVENTS_TO_POSTGRES = False
 
-# Alert rules (from dim_sensor_type typical_min/max)
-# WARN: outside [min, max]
-# CRITICAL: outside [min - k*(max-min), max + k*(max-min)]
-CRITICAL_RANGE_MULT = float(os.getenv("CRITICAL_RANGE_MULT", "0.50"))
+# Mongo (hot data)
+MONGO_URI = "mongodb://localhost:27017"
+MONGO_DB = "iot_db"
+MONGO_COLLECTION = "sensor_events"  # adjust to your collection name
 
-# Snapshot alert feed size
-ALERT_FEED_LIMIT = int(os.getenv("ALERT_FEED_LIMIT", "200"))
+# Postgres (analytics layer)
+PG_HOST = "localhost"
+PG_PORT = 5432
+PG_DB = "analytics_db"
+PG_USER = "postgres"
+PG_PASSWORD = "postgres"
+
+# Target tables
+T_OVERALL = "agg_overall_minute"
+T_FACTORY = "agg_factory_minute"
+T_MACHINE = "agg_machine_minute"
+T_PRODUCT = "agg_product_minute"
+T_ALERTS = "fact_machine_alert_events"
+T_RAW = "fact_machine_sensor_events"
+
+# Spark packages (adjust versions to match your Spark)
+# Mongo Spark Connector and Postgres JDBC driver
+SPARK_PACKAGES = ",".join([
+    "org.mongodb.spark:mongo-spark-connector_2.12:10.2.2",
+    "org.postgresql:postgresql:42.7.3",
+])
 
 
-# -------------------------
-# Spark + IO helpers
-# -------------------------
-def build_spark() -> SparkSession:
-    spark = (
-        SparkSession.builder
-        .appName("BDA_Mongo_To_Postgres_KPIs")
-        .config("spark.sql.session.timeZone", "UTC")
-        .getOrCreate()
+# ============================================================
+# Helpers: Postgres connection + idempotent minute upsert pattern
+# ============================================================
+
+def pg_connect():
+    return psycopg2.connect(
+        host=PG_HOST,
+        port=PG_PORT,
+        dbname=PG_DB,
+        user=PG_USER,
+        password=PG_PASSWORD,
     )
-    spark.sparkContext.setLogLevel("WARN")
-    return spark
 
 
-def read_mongo(spark: SparkSession, collection: str) -> DataFrame:
+def delete_minute_range(conn, table_name: str, minute_col: str, start_ts, end_ts):
+    """
+    Deletes rows in [start_ts, end_ts] for idempotent re-inserts.
+    """
+    sql = f"""
+        DELETE FROM {table_name}
+        WHERE {minute_col} >= %s AND {minute_col} <= %s
+    """
+    with conn.cursor() as cur:
+        cur.execute(sql, (start_ts, end_ts))
+    conn.commit()
+
+
+def write_df_jdbc(df, table_name: str, mode="append"):
+    """
+    Spark JDBC write helper.
+    """
+    jdbc_url = f"jdbc:postgresql://{PG_HOST}:{PG_PORT}/{PG_DB}"
+    props = {"user": PG_USER, "password": PG_PASSWORD, "driver": "org.postgresql.Driver"}
+
+    (df.write
+        .format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", table_name)
+        .option("user", PG_USER)
+        .option("password", PG_PASSWORD)
+        .option("driver", "org.postgresql.Driver")
+        .mode(mode)
+        .save()
+    )
+
+
+# ============================================================
+# Spark: build session
+# ============================================================
+
+spark = (
+    SparkSession.builder
+    .appName("Mongo_to_Postgres_RealTime_KPIs_And_Alerts")
+    .config("spark.jars.packages", SPARK_PACKAGES)
+    .config("spark.sql.session.timeZone", "UTC")
+    .getOrCreate()
+)
+
+spark.sparkContext.setLogLevel("WARN")
+
+
+# ============================================================
+# Load dimension tables from Postgres (small tables -> broadcast join)
+# ============================================================
+
+def load_dim_sensor_type():
+    jdbc_url = f"jdbc:postgresql://{PG_HOST}:{PG_PORT}/{PG_DB}"
     return (
-        spark.read.format("mongo")
+        spark.read.format("jdbc")
+        .option("url", jdbc_url)
+        .option("dbtable", "dim_sensor_type")
+        .option("user", PG_USER)
+        .option("password", PG_PASSWORD)
+        .option("driver", "org.postgresql.Driver")
+        .load()
+        .select(
+            F.col("sensor_type_id").cast("int"),
+            F.col("sensor_type_code"),
+            F.col("typical_min").cast("double"),
+            F.col("typical_max").cast("double"),
+            F.col("unit"),
+        )
+    )
+
+
+dim_sensor_type_df = load_dim_sensor_type()
+dim_sensor_type_df.cache()
+
+
+# ============================================================
+# Mongo Read
+# ============================================================
+
+def read_mongo_hot_events(lookback_minutes: int):
+    """
+    Reads only recent events from Mongo to keep workload bounded.
+    Expects fields aligned to your fact schema:
+      - event_timestamp_utc
+      - machine_id
+      - sensor_type_id
+      - product_id (nullable)
+      - operator_id (nullable)
+      - reading_value
+      - reading_status
+      - is_planned_downtime
+    """
+    cutoff_expr = F.expr(f"timestampadd(MINUTE, -{lookback_minutes}, current_timestamp())")
+
+    raw = (
+        spark.read.format("mongodb")
         .option("uri", MONGO_URI)
         .option("database", MONGO_DB)
-        .option("collection", collection)
+        .option("collection", MONGO_COLLECTION)
         .load()
     )
 
+    # Adjust these mappings if your Mongo field names differ
+    df = (raw
+          .withColumn("event_timestamp_utc", F.to_timestamp(F.col("event_timestamp_utc")))
+          .withColumn("machine_id", F.col("machine_id").cast("int"))
+          .withColumn("sensor_type_id", F.col("sensor_type_id").cast("int"))
+          .withColumn("product_id", F.col("product_id").cast("int"))
+          .withColumn("operator_id", F.col("operator_id").cast("int"))
+          .withColumn("reading_value", F.col("reading_value").cast("double"))
+          .withColumn("reading_status", F.col("reading_status").cast("string"))
+          .withColumn("is_planned_downtime", F.col("is_planned_downtime").cast("boolean"))
+          .filter(F.col("event_timestamp_utc") >= cutoff_expr)
+    )
 
-def write_pg(df: DataFrame, table: str, mode: str = "overwrite", truncate: bool = True) -> None:
-    w = (
-        df.write.format("jdbc")
-        .option("url", PG_URL)
-        .option("dbtable", table)
+    # Drop rows that cannot be processed
+    df = df.filter(
+        F.col("event_timestamp_utc").isNotNull()
+        & F.col("machine_id").isNotNull()
+        & F.col("sensor_type_id").isNotNull()
+        & F.col("reading_value").isNotNull()
+    )
+
+    return df
+
+
+# ============================================================
+# KPI Aggregations
+# ============================================================
+
+def build_kpis(events_df):
+    """
+    Returns 4 aggregate DataFrames:
+    - overall_minute
+    - factory_minute
+    - machine_minute
+    - product_minute
+    """
+    # minute bucket
+    df = events_df.withColumn("minute_ts", F.date_trunc("minute", F.col("event_timestamp_utc")))
+
+    # Need factory_id for grouping -> join via dim_machine
+    dim_machine = (
+        spark.read.format("jdbc")
+        .option("url", f"jdbc:postgresql://{PG_HOST}:{PG_PORT}/{PG_DB}")
+        .option("dbtable", "dim_machine")
         .option("user", PG_USER)
-        .option("password", PG_PASS)
+        .option("password", PG_PASSWORD)
         .option("driver", "org.postgresql.Driver")
-        .mode(mode)
+        .load()
+        .select(F.col("machine_id").cast("int"), F.col("factory_id").cast("int"))
     )
-    if truncate and mode.lower() == "overwrite":
-        w = w.option("truncate", "true")
-    w.save()
 
+    df = df.join(F.broadcast(dim_machine), on="machine_id", how="left").filter(F.col("factory_id").isNotNull())
 
-def normalize_fact(fact_raw: DataFrame) -> DataFrame:
-    """
-    Ensures consistent types + derives time buckets.
-    """
-    ts = F.col("event_timestamp")
-    fact = (
-        fact_raw
-        .withColumn("event_ts", F.when(ts.cast("timestamp").isNotNull(), ts.cast("timestamp")).otherwise(F.to_timestamp(ts)))
-        .withColumn("factory_id", F.col("factory_id").cast("int"))
-        .withColumn("machine_id", F.col("machine_id").cast("int"))
-        .withColumn("sensor_type_id", F.col("sensor_type_id").cast("int"))
-        .withColumn("product_id", F.col("product_id").cast("int"))
-        .withColumn("operator_id", F.col("operator_id").cast("int"))
-        .withColumn("reading_value_d", F.col("reading_value").cast("double"))
-        .withColumn("is_downtime_b", F.col("is_downtime").cast("boolean"))
-        .withColumn("planned_downtime_b", F.col("planned_downtime").cast("boolean"))
-        .withColumn("minute_ts", F.date_trunc("minute", F.col("event_ts")))
-        .withColumn("hour_ts", F.date_trunc("hour", F.col("event_ts")))
-        .withColumn("day_dt", F.to_date(F.col("event_ts")))
-    )
-    return fact
-
-
-# -------------------------
-# MAIN
-# -------------------------
-def main() -> None:
-    spark = build_spark()
-
-    # ----- read fact -----
-    fact_raw = read_mongo(spark, "sensor_readings")
-    fact = normalize_fact(
-        fact_raw.select(
-            "factory_id","machine_id","sensor_type_id","product_id","operator_id",
-            "event_timestamp","reading_value","is_downtime","planned_downtime"
+    # Overall
+    overall = (
+        df.groupBy("minute_ts")
+        .agg(
+            F.count("*").alias("event_count"),
+            F.avg("reading_value").alias("avg_value"),
+            F.min("reading_value").alias("min_value"),
+            F.max("reading_value").alias("max_value"),
         )
     )
 
-    # ----- read dims from Mongo -----
-    dim_factory = read_mongo(spark, "dim_factory").select(
-        F.col("factory_id").cast("int").alias("factory_id"),
-        F.col("factory_code").cast("string").alias("factory_code"),
-        F.col("factory_name").cast("string").alias("factory_name"),
-        F.col("city").cast("string").alias("city"),
-        F.col("capacity_class").cast("string").alias("capacity_class"),
-    )
-
-    dim_machine = read_mongo(spark, "dim_machine").select(
-        F.col("machine_id").cast("int").alias("machine_id"),
-        F.col("factory_id").cast("int").alias("factory_id"),
-        F.col("machine_name").cast("string").alias("machine_name"),
-        F.col("machine_type").cast("string").alias("machine_type"),
-        F.col("vendor").cast("string").alias("vendor"),
-        F.col("criticality").cast("string").alias("criticality"),
-    )
-
-    dim_sensor = read_mongo(spark, "dim_sensor_type").select(
-        F.col("sensor_type_id").cast("int").alias("sensor_type_id"),
-        F.col("sensor_type_code").cast("string").alias("sensor_type_code"),
-        F.col("unit").cast("string").alias("unit"),
-        F.col("typical_min").cast("double").alias("typical_min"),
-        F.col("typical_max").cast("double").alias("typical_max"),
-    )
-
-    dim_product = read_mongo(spark, "dim_product").select(
-        F.col("product_id").cast("int").alias("product_id"),
-        F.col("sku").cast("string").alias("sku"),
-        F.col("product_name").cast("string").alias("product_name"),
-        F.col("category").cast("string").alias("category"),
-        F.col("pack_size_g").cast("int").alias("pack_size_g"),
-    )
-
-    dim_operator = read_mongo(spark, "dim_operator").select(
-        F.col("operator_id").cast("int").alias("operator_id"),
-        F.col("operator_name").cast("string").alias("operator_name"),
-        F.col("experience_level").cast("string").alias("experience_level"),
-        F.col("shift_pattern").cast("string").alias("shift_pattern"),
-    )
-
-    # ----- filters -----
-    cutoff_live = F.current_timestamp() - F.expr(f"INTERVAL {LAST_N_MINUTES} MINUTES")
-    cutoff_days = F.current_timestamp() - F.expr(f"INTERVAL {LAST_N_DAYS} DAYS")
-
-    fact_live = fact.filter(F.col("event_ts") >= cutoff_live)
-    fact_days = fact.filter(F.col("event_ts") >= cutoff_days)
-
-    # ----- enrich with dims for readable dashboards -----
-    def enrich(df: DataFrame) -> DataFrame:
-        return (
-            df.join(dim_factory, on="factory_id", how="left")
-              .join(dim_machine, on=["machine_id","factory_id"], how="left")
-              .join(dim_sensor, on="sensor_type_id", how="left")
-              .join(dim_product, on="product_id", how="left")
-              .join(dim_operator, on="operator_id", how="left")
+    # Factory
+    factory = (
+        df.groupBy("minute_ts", "factory_id")
+        .agg(
+            F.count("*").alias("event_count"),
+            F.avg("reading_value").alias("avg_value"),
+            F.min("reading_value").alias("min_value"),
+            F.max("reading_value").alias("max_value"),
         )
+    )
 
-    live_enriched = enrich(fact_live)
-    days_enriched = enrich(fact_days)
+    # Machine
+    machine = (
+        df.groupBy("minute_ts", "factory_id", "machine_id")
+        .agg(
+            F.count("*").alias("event_count"),
+            F.avg("reading_value").alias("avg_value"),
+            F.min("reading_value").alias("min_value"),
+            F.max("reading_value").alias("max_value"),
+        )
+    )
 
-    # =========================================================
-    # KPI TABLE 5: Derived alert feed (WARN/CRITICAL)
-    # =========================================================
-    # WARN: reading < typical_min OR reading > typical_max
-    # CRITICAL: outside expanded range by CRITICAL_RANGE_MULT*(typical_max-typical_min)
-    span = (F.col("typical_max") - F.col("typical_min"))
-    crit_low = (F.col("typical_min") - F.lit(CRITICAL_RANGE_MULT) * span)
-    crit_high = (F.col("typical_max") + F.lit(CRITICAL_RANGE_MULT) * span)
+    # Product (nullable product_id -> keep only known)
+    product = (
+        df.filter(F.col("product_id").isNotNull())
+        .groupBy("minute_ts", "factory_id", "product_id")
+        .agg(
+            F.count("*").alias("event_count"),
+            F.avg("reading_value").alias("avg_value"),
+            F.min("reading_value").alias("min_value"),
+            F.max("reading_value").alias("max_value"),
+        )
+    )
+
+    return overall, factory, machine, product
+
+
+# ============================================================
+# Alert Generation
+# ============================================================
+
+def generate_alerts(events_df):
+    """
+    Generates alerts using dim_sensor_type typical_min / typical_max as thresholds.
+
+    Severity rule (simple and explainable):
+    - CRITICAL: reading_value < typical_min OR reading_value > typical_max
+    - WARNING: reading_value within 5% band near edges (optional)
+    Here we implement only CRITICAL for clarity, and you can extend later.
+    """
+    df = (
+        events_df
+        .join(F.broadcast(dim_sensor_type_df), on="sensor_type_id", how="left")
+        .filter(F.col("typical_min").isNotNull() & F.col("typical_max").isNotNull())
+    )
+
+    # Determine breach
+    breach_high = F.col("reading_value") > F.col("typical_max")
+    breach_low = F.col("reading_value") < F.col("typical_min")
 
     alerts = (
-        live_enriched
-        .withColumn(
-            "severity",
-            F.when((F.col("reading_value_d") < crit_low) | (F.col("reading_value_d") > crit_high), F.lit("CRITICAL"))
-             .when((F.col("reading_value_d") < F.col("typical_min")) | (F.col("reading_value_d") > F.col("typical_max")), F.lit("WARNING"))
-             .otherwise(F.lit(None))
-        )
-        .filter(F.col("severity").isNotNull())
-        .withColumn(
-            "threshold_value",
-            F.when(F.col("reading_value_d") < F.col("typical_min"), F.col("typical_min"))
-             .when(F.col("reading_value_d") > F.col("typical_max"), F.col("typical_max"))
-             .otherwise(F.lit(None))
-        )
-        .withColumn(
-            "threshold_condition",
-            F.when(F.col("reading_value_d") < F.col("typical_min"), F.lit("<"))
-             .when(F.col("reading_value_d") > F.col("typical_max"), F.lit(">"))
-             .otherwise(F.lit(None))
-        )
+        df.filter(breach_high | breach_low)
+        .withColumn("alert_time_utc", F.col("event_timestamp_utc"))
+        .withColumn("threshold_value", F.when(breach_high, F.col("typical_max")).otherwise(F.col("typical_min")))
+        .withColumn("threshold_condition", F.when(breach_high, F.lit(">")).otherwise(F.lit("<")))
+        .withColumn("severity", F.lit("CRITICAL"))
         .withColumn(
             "alert_type",
-            F.concat(F.lit("Sensor "), F.col("sensor_type_code"), F.lit(" Out of Typical Range"))
+            F.when(breach_high, F.concat(F.lit("High "), F.col("sensor_type_code"))).otherwise(
+                F.concat(F.lit("Low "), F.col("sensor_type_code"))
+            )
         )
         .withColumn(
             "alert_message",
             F.concat(
-                F.lit("Reading "), F.col("reading_value_d").cast("string"),
-                F.lit(" "), F.coalesce(F.col("unit"), F.lit("")),
-                F.lit(" violated typical range ["),
-                F.col("typical_min").cast("string"), F.lit(", "),
-                F.col("typical_max").cast("string"), F.lit("].")
+                F.lit("Machine "), F.col("machine_id").cast("string"),
+                F.lit(" violated "), F.col("sensor_type_code"),
+                F.lit(" threshold. Value="), F.round(F.col("reading_value"), 2).cast("string"),
+                F.lit(" Threshold="), F.round(F.col("threshold_value"), 2).cast("string"),
+                F.lit(" "), F.coalesce(F.col("unit"), F.lit(""))
             )
         )
         .select(
-            F.col("event_ts").alias("event_timestamp_utc"),
-            "factory_id","factory_name","city",
-            "machine_id","machine_name","machine_type","criticality",
-            "sensor_type_id","sensor_type_code","sensor_type_name","unit",
-            "product_id","product_name","category",
-            "operator_id","operator_name",
-            F.col("reading_value_d").alias("actual_value"),
-            "threshold_value","threshold_condition",
-            "severity","alert_type","alert_message",
-            F.current_timestamp().alias("run_ts")
-        )
-        .orderBy(F.col("event_timestamp_utc").desc(), F.col("severity").desc())
-        .limit(ALERT_FEED_LIMIT)
-    )
-
-    # =========================================================
-    # KPI TABLE 1: Minute machine KPIs (Operations core)
-    # =========================================================
-    # Availability proxy = 100*(1-downtime_rate)
-    minute_machine = (
-        live_enriched
-        .groupBy(
-            "minute_ts",
-            "factory_id","factory_name","city","capacity_class",
-            "machine_id","machine_name","machine_type","vendor","criticality",
-            "product_id","product_name",
-            "operator_id","operator_name"
-        )
-        .agg(
-            F.count("*").alias("events_count"),
-            F.avg("reading_value_d").alias("avg_reading"),
-            F.max("reading_value_d").alias("max_reading"),
-            F.min("reading_value_d").alias("min_reading"),
-            F.sum(F.when(F.col("is_downtime_b") == True, 1).otherwise(0)).alias("downtime_events"),
-            F.sum(F.when(F.col("planned_downtime_b") == True, 1).otherwise(0)).alias("planned_downtime_events"),
-            F.sum(F.when((F.col("is_downtime_b") == True) & (F.col("planned_downtime_b") == False), 1).otherwise(0)).alias("unplanned_downtime_events"),
-        )
-        .withColumn(
-            "downtime_rate_pct",
-            F.when(F.col("events_count") > 0, (F.col("downtime_events") / F.col("events_count")) * 100.0).otherwise(F.lit(0.0))
-        )
-        .withColumn(
-            "availability_pct_proxy",
-            F.round(F.lit(100.0) - F.col("downtime_rate_pct"), 4)
-        )
-        .withColumn("run_ts", F.current_timestamp())
-        .select(
-            "minute_ts",
-            "factory_id","factory_name","city","capacity_class",
-            "machine_id","machine_name","machine_type","vendor","criticality",
-            "product_id","product_name",
-            "operator_id","operator_name",
-            "events_count",
-            F.round("avg_reading",4).alias("avg_reading"),
-            "max_reading","min_reading",
-            "downtime_events",
-            F.round("downtime_rate_pct",4).alias("downtime_rate_pct"),
-            "planned_downtime_events","unplanned_downtime_events",
-            "availability_pct_proxy",
-            "run_ts"
+            "alert_time_utc",
+            "machine_id",
+            "sensor_type_id",
+            "product_id",
+            "operator_id",
+            F.col("reading_value").alias("actual_value"),
+            "threshold_value",
+            "threshold_condition",
+            "severity",
+            "alert_type",
+            "alert_message",
+            F.lit(False).alias("resolved_flag"),
+            F.lit(None).cast("timestamp").alias("resolved_at"),
         )
     )
 
-    # =========================================================
-    # KPI TABLE 2: Hourly factory KPIs (Factory trend story)
-    # =========================================================
-    hourly_factory = (
-        live_enriched
-        .groupBy("hour_ts","factory_id","factory_name","city","capacity_class")
-        .agg(
-            F.count("*").alias("events_count"),
-            F.avg("reading_value_d").alias("avg_reading"),
-            F.max("reading_value_d").alias("max_reading"),
-            F.sum(F.when(F.col("is_downtime_b") == True, 1).otherwise(0)).alias("downtime_events"),
-            F.sum(F.when(F.col("planned_downtime_b") == True, 1).otherwise(0)).alias("planned_downtime_events"),
-        )
-        .withColumn(
-            "downtime_rate_pct",
-            F.when(F.col("events_count") > 0, (F.col("downtime_events") / F.col("events_count")) * 100.0).otherwise(F.lit(0.0))
-        )
-        .withColumn("availability_pct_proxy", F.round(F.lit(100.0) - F.col("downtime_rate_pct"), 4))
-        .withColumn("run_ts", F.current_timestamp())
-        .select(
-            "hour_ts",
-            "factory_id","factory_name","city","capacity_class",
-            "events_count",
-            F.round("avg_reading",4).alias("avg_reading"),
-            "max_reading",
-            "downtime_events",
-            F.round("downtime_rate_pct",4).alias("downtime_rate_pct"),
-            "planned_downtime_events",
-            "availability_pct_proxy",
-            "run_ts"
-        )
-    )
-
-    # =========================================================
-    # KPI TABLE 3: Daily machine performance (Reliability / ranking story)
-    # =========================================================
-    daily_machine = (
-        days_enriched
-        .groupBy(
-            "day_dt",
-            "factory_id","factory_name","city",
-            "machine_id","machine_name","machine_type","criticality"
-        )
-        .agg(
-            F.count("*").alias("events_count"),
-            F.sum(F.when(F.col("is_downtime_b") == True, 1).otherwise(0)).alias("downtime_events"),
-            F.sum(F.when((F.col("is_downtime_b") == True) & (F.col("planned_downtime_b") == False), 1).otherwise(0)).alias("unplanned_downtime_events"),
-            F.avg("reading_value_d").alias("avg_reading"),
-            F.max("reading_value_d").alias("max_reading"),
-        )
-        .withColumn(
-            "downtime_rate_pct",
-            F.when(F.col("events_count") > 0, (F.col("downtime_events") / F.col("events_count")) * 100.0).otherwise(F.lit(0.0))
-        )
-        .withColumn("availability_pct_proxy", F.round(F.lit(100.0) - F.col("downtime_rate_pct"), 4))
-        .withColumn("run_ts", F.current_timestamp())
-        .select(
-            "day_dt",
-            "factory_id","factory_name","city",
-            "machine_id","machine_name","machine_type","criticality",
-            "events_count",
-            "downtime_events","unplanned_downtime_events",
-            F.round("downtime_rate_pct",4).alias("downtime_rate_pct"),
-            "availability_pct_proxy",
-            F.round("avg_reading",4).alias("avg_reading"),
-            "max_reading",
-            "run_ts"
-        )
-    )
-
-    # =========================================================
-    # KPI TABLE 4: Daily product impact (Product story dashboard)
-    # =========================================================
-    daily_product = (
-        days_enriched
-        .groupBy("day_dt", "factory_id","factory_name", "product_id","product_name","category")
-        .agg(
-            F.count("*").alias("events_count"),
-            F.avg("reading_value_d").alias("avg_reading"),
-            F.max("reading_value_d").alias("max_reading"),
-            F.sum(F.when(F.col("is_downtime_b") == True, 1).otherwise(0)).alias("downtime_events"),
-        )
-        .withColumn(
-            "downtime_rate_pct",
-            F.when(F.col("events_count") > 0, (F.col("downtime_events") / F.col("events_count")) * 100.0).otherwise(F.lit(0.0))
-        )
-        .withColumn("run_ts", F.current_timestamp())
-        .select(
-            "day_dt",
-            "factory_id","factory_name",
-            "product_id","product_name","category",
-            "events_count",
-            F.round("avg_reading",4).alias("avg_reading"),
-            "max_reading",
-            "downtime_events",
-            F.round("downtime_rate_pct",4).alias("downtime_rate_pct"),
-            "run_ts"
-        )
-    )
-
-    # =========================================================
-    # Write to Postgres (5 KPI tables)
-    # =========================================================
-    # minute/hour/daily tables recomputed each run => overwrite + truncate
-    write_pg(minute_machine, "kpi_minute_machine", mode="overwrite", truncate=True)
-    write_pg(hourly_factory, "kpi_hourly_factory", mode="overwrite", truncate=True)
-    write_pg(daily_machine, "kpi_daily_machine", mode="overwrite", truncate=True)
-    write_pg(daily_product, "kpi_daily_product", mode="overwrite", truncate=True)
-
-    # alert feed: overwrite so it always shows latest alerts cleanly
-    write_pg(alerts, "kpi_alert_events", mode="overwrite", truncate=True)
-
-    print("✅ KPI tables refreshed in Postgres successfully.")
+    return alerts
 
 
-if __name__ == "__main__":
-    main()
+# ============================================================
+# Main loop
+# ============================================================
+
+def get_min_max_minute(df, minute_col="minute_ts"):
+    row = df.agg(F.min(minute_col).alias("min_ts"), F.max(minute_col).alias("max_ts")).collect()[0]
+    return row["min_ts"], row["max_ts"]
+
+
+while True:
+    loop_start = datetime.now(timezone.utc)
+    print(f"[{loop_start.isoformat()}] Running KPI + Alert batch...")
+
+    events = read_mongo_hot_events(LOOKBACK_MINUTES)
+
+    if events.rdd.isEmpty():
+        print("No events found in lookback window. Sleeping...")
+        time.sleep(BATCH_INTERVAL_SECONDS)
+        continue
+
+    # Optionally persist raw facts into Postgres
+    if WRITE_RAW_EVENTS_TO_POSTGRES:
+        write_df_jdbc(
+            events.select(
+                "event_timestamp_utc",
+                "machine_id",
+                "sensor_type_id",
+                "product_id",
+                "operator_id",
+                "reading_value",
+                "reading_status",
+                "is_planned_downtime",
+            ),
+            T_RAW,
+            mode="append",
+        )
+
+    # Build KPIs
+    overall_df, factory_df, machine_df, product_df = build_kpis(events)
+
+    # Generate alerts
+    alerts_df = generate_alerts(events)
+
+    # Determine minute range for idempotent refresh
+    min_ts, max_ts = get_min_max_minute(overall_df, "minute_ts")
+
+    conn = pg_connect()
+    try:
+        # Clear minute ranges before inserting (idempotent)
+        delete_minute_range(conn, T_OVERALL, "minute_ts", min_ts, max_ts)
+        delete_minute_range(conn, T_FACTORY, "minute_ts", min_ts, max_ts)
+        delete_minute_range(conn, T_MACHINE, "minute_ts", min_ts, max_ts)
+        delete_minute_range(conn, T_PRODUCT, "minute_ts", min_ts, max_ts)
+
+        # Write KPI tables
+        write_df_jdbc(overall_df, T_OVERALL, mode="append")
+        write_df_jdbc(factory_df, T_FACTORY, mode="append")
+        write_df_jdbc(machine_df, T_MACHINE, mode="append")
+        write_df_jdbc(product_df, T_PRODUCT, mode="append")
+
+        # Alerts: to avoid duplicates, delete alerts in the same time window (optional)
+        # Here we delete alerts that match the time window; you can refine if needed.
+        with conn.cursor() as cur:
+            cur.execute(
+                f"DELETE FROM {T_ALERTS} WHERE alert_time_utc >= %s AND alert_time_utc <= %s",
+                (min_ts, max_ts),
+            )
+        conn.commit()
+
+        write_df_jdbc(alerts_df, T_ALERTS, mode="append")
+
+        print(f"Batch complete. Minute range: {min_ts} -> {max_ts}")
+
+    finally:
+        conn.close()
+
+    time.sleep(BATCH_INTERVAL_SECONDS)
