@@ -29,8 +29,8 @@ services:
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
 
       # ===== Your pipeline config (edit only if needed) =====
-      MONGO_URI: mongodb://mongo:27017
-      MONGO_DB: iot_db
+      MONGO_URI: mongodb://mongo:27017/iot_database
+      MONGO_DB: iot_database
       MONGO_COLLECTION: sensor_readings
 
       ARCHIVE_THRESHOLD_MB: "300"
