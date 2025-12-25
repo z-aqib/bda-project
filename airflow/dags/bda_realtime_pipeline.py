@@ -14,12 +14,29 @@ def _env(name: str, default: str) -> str:
     return os.environ.get(name, default)
 
 
-def _hdfs(container: str, cmd: str) -> None:
-    # bde2020 images: hdfs lives under /opt/hadoop-3.2.1/bin
-    subprocess.run(
-        ["/usr/bin/docker", "exec", "-i", container, "bash", "-lc", f"export PATH=/opt/hadoop-3.2.1/bin:$PATH; {cmd}"],
-        check=True,
+def _hdfs(container: str, cmd: str) -> str:
+    """
+    Runs HDFS command inside namenode container with correct PATH.
+    Returns stdout (useful for debugging).
+    """
+    p = subprocess.run(
+        [
+            "/usr/bin/docker",
+            "exec",
+            "-i",
+            container,
+            "bash",
+            "-lc",
+            f"export PATH=/opt/hadoop-3.2.1/bin:$PATH; {cmd}",
+        ],
+        text=True,
+        capture_output=True,
     )
+    if p.returncode != 0:
+        raise RuntimeError(
+            f"HDFS command failed (rc={p.returncode})\nCMD: {cmd}\nSTDOUT:\n{p.stdout}\nSTDERR:\n{p.stderr}"
+        )
+    return (p.stdout or "").strip()
 
 
 def _coll_size_bytes(mongo_uri: str, db: str, coll: str) -> int:
@@ -38,6 +55,17 @@ def _max_event_ts(client: MongoClient, db: str, coll: str):
 def _free_bytes(path: str) -> int:
     usage = shutil.disk_usage(path)
     return int(usage.free)
+
+
+def _pipe_local_file_into_container(container: str, local_path: str, container_tmp_path: str) -> None:
+    """
+    Streams a local file into a container path without needing shared volumes.
+    """
+    # Use bash -lc so redirection works
+    subprocess.run(
+        ["bash", "-lc", f"cat '{local_path}' | /usr/bin/docker exec -i {container} bash -lc 'cat > {container_tmp_path}'"],
+        check=True,
+    )
 
 
 with DAG(
@@ -64,10 +92,10 @@ with DAG(
         hdfs_archive_dir = _env("HDFS_ARCHIVE_DIR", "/bda/archive/mongo")
         hdfs_metadata_dir = _env("HDFS_METADATA_DIR", "/bda/archive/metadata")
 
-        # NEW: safety knobs
-        chunk_docs = int(_env("ARCHIVE_CHUNK_DOCS", "50000"))          # docs per file
-        min_free_mb = int(_env("ARCHIVE_MIN_FREE_MB", "300"))          # stop if disk too low
-        max_chunks_per_run = int(_env("ARCHIVE_MAX_CHUNKS", "50"))     # cap work per minute run (avoid long runs)
+        # Safety knobs
+        chunk_docs = int(_env("ARCHIVE_CHUNK_DOCS", "20000"))     # safer default
+        min_free_mb = int(_env("ARCHIVE_MIN_FREE_MB", "800"))     # stop before disk issues
+        max_chunks_per_run = int(_env("ARCHIVE_MAX_CHUNKS", "10"))  # keep each run short
 
         os.makedirs(local_dir, exist_ok=True)
 
@@ -120,10 +148,11 @@ with DAG(
             try:
                 buffer_ids = []
                 part_no = 1
-                f = None
-                data_file = None
 
-                def _open_new_part(pno: int):
+                data_file = None
+                f = None
+
+                def _start_part(pno: int):
                     nonlocal f, data_file
                     if f:
                         f.close()
@@ -131,8 +160,39 @@ with DAG(
                     f = open(data_file, "w", encoding="utf-8")
                     return data_file
 
-                # start first part
-                data_file = _open_new_part(part_no)
+                _start_part(part_no)
+
+                def _upload_and_delete_current_part():
+                    nonlocal buffer_ids, data_file, parts_written, total_deleted
+
+                    if not buffer_ids:
+                        return
+
+                    base = os.path.basename(data_file)
+                    tmp_path = f"/tmp/{base}"
+                    hdfs_path = f"{hdfs_archive_dir}/{base}"
+
+                    # stream file into namenode:/tmp and put to HDFS
+                    _pipe_local_file_into_container(hdfs_container, data_file, tmp_path)
+                    _hdfs(hdfs_container, f"hdfs dfs -put -f '{tmp_path}' '{hdfs_path}'")
+
+                    # delete docs by _id list
+                    del_res = coll.delete_many({"_id": {"$in": buffer_ids}})
+                    total_deleted += int(del_res.deleted_count)
+
+                    # cleanup
+                    try:
+                        os.remove(data_file)
+                    except FileNotFoundError:
+                        pass
+                    try:
+                        _hdfs(hdfs_container, f"rm -f '{tmp_path}' || true")  # harmless
+                    except Exception:
+                        pass
+
+                    hdfs_files.append(hdfs_path)
+                    buffer_ids = []
+                    parts_written += 1
 
                 for doc in cursor:
                     # update min/max ts
@@ -152,72 +212,23 @@ with DAG(
                     # rotate file when chunk reached
                     if len(buffer_ids) >= chunk_docs:
                         f.close()
-                        parts_written += 1
+                        _upload_and_delete_current_part()
 
-                        # upload part to HDFS (stream file into namenode, then hdfs -put)
-                        base = os.path.basename(data_file)
-                        hdfs_path = f"{hdfs_archive_dir}/{base}"
-                        subprocess.run(
-                            ["bash", "-lc", f"cat {data_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{base}'"],
-                            check=True,
-                        )
-                        _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
-
-                        # delete corresponding docs (by ids)
-                        del_res = coll.delete_many({"_id": {"$in": buffer_ids}})
-                        total_deleted += int(del_res.deleted_count)
-
-                        # cleanup local part file
-                        try:
-                            os.remove(data_file)
-                        except FileNotFoundError:
-                            pass
-
-                        hdfs_files.append(hdfs_path)
-                        buffer_ids = []
-                        part_no += 1
-
-                        # cap work per run (so a minute DAG doesn’t run for hours)
                         if parts_written >= max_chunks_per_run:
                             break
 
-                        # open next part
-                        data_file = _open_new_part(part_no)
+                        part_no += 1
+                        _start_part(part_no)
 
-                # flush remaining buffer if any docs written in last part
                 if f:
                     f.close()
 
-                # If last part has data (buffer_ids not empty), upload + delete
+                # flush remaining
                 if buffer_ids:
-                    parts_written += 1
-                    base = os.path.basename(data_file)
-                    hdfs_path = f"{hdfs_archive_dir}/{base}"
+                    _upload_and_delete_current_part()
 
-                    subprocess.run(
-                        ["bash", "-lc", f"cat {data_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{base}'"],
-                        check=True,
-                    )
-                    _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{base}", hdfs_path])
-
-                    del_res = coll.delete_many({"_id": {"$in": buffer_ids}})
-                    total_deleted += int(del_res.deleted_count)
-
-                    try:
-                        os.remove(data_file)
-                    except FileNotFoundError:
-                        pass
-
-                    hdfs_files.append(hdfs_path)
-
-                # If nothing archived (possible if q matched nothing)
                 if total_archived == 0:
-                    return {
-                        "archived": False,
-                        "size_mb": round(size_mb, 2),
-                        "reason": "no_older_than_cutoff",
-                        "cutoff_str": cutoff_str,
-                    }
+                    return {"archived": False, "reason": "no_older_than_cutoff", "cutoff_str": cutoff_str, "size_mb": round(size_mb, 2)}
 
                 # Metadata (small, safe)
                 meta = {
@@ -239,13 +250,11 @@ with DAG(
                     json.dump(meta, mf, indent=2)
 
                 meta_base = os.path.basename(meta_file)
+                meta_tmp = f"/tmp/{meta_base}"
                 hdfs_meta_path = f"{hdfs_metadata_dir}/{meta_base}"
 
-                subprocess.run(
-                    ["bash", "-lc", f"cat {meta_file} | /usr/bin/docker exec -i {hdfs_container} bash -lc 'cat > /tmp/{meta_base}'"],
-                    check=True,
-                )
-                _hdfs(hdfs_container, ["hdfs", "dfs", "-put", "-f", f"/tmp/{meta_base}", hdfs_meta_path])
+                _pipe_local_file_into_container(hdfs_container, meta_file, meta_tmp)
+                _hdfs(hdfs_container, f"hdfs dfs -put -f '{meta_tmp}' '{hdfs_meta_path}'")
 
                 try:
                     os.remove(meta_file)
@@ -255,12 +264,11 @@ with DAG(
                 return {
                     "archived": True,
                     "size_mb_before": round(size_mb, 2),
+                    "cutoff_str": cutoff_str,
                     "docs_archived": total_archived,
                     "docs_deleted": total_deleted,
-                    "cutoff_str": cutoff_str,
-                    "hdfs_meta_path": hdfs_meta_path,
                     "hdfs_parts_written": parts_written,
-                    "note": "chunked archive (safe, avoids disk full)",
+                    "hdfs_meta_path": hdfs_meta_path,
                 }
 
             finally:
