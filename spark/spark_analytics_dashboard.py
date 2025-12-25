@@ -87,7 +87,7 @@ dim_sensor = (
 # =========================
 
 events = (
-    spark.read.format("mongo")
+    spark.read.format("mongodb")
     .option("uri", MONGO_URI)
     .option("database", MONGO_DB)
     .option("collection", MONGO_COLLECTION)
