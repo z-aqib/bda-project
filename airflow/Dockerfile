@@ -24,6 +24,17 @@ RUN apt-get update && apt-get install -y \
 # -----------------------------
 # Switch to airflow user for pip
 # -----------------------------
+
+ARG DOCKER_GID=984
+
+USER root
+RUN if getent group docker; then \
+    groupmod -g ${DOCKER_GID} docker || true; \
+    else \
+    groupadd -g ${DOCKER_GID} docker; \
+    fi \
+    && usermod -aG docker airflow
+
 USER airflow
 
 RUN pip install --no-cache-dir pymongo==4.6.3
