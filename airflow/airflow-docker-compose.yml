@@ -29,6 +29,8 @@ services:
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
       AIRFLOW__WEBSERVER__WEB_SERVER_HOST: "0.0.0.0"
       AIRFLOW__WEBSERVER__WEB_SERVER_PORT: "8080"
+      AIRFLOW__LOGGING__LOG_RETENTION_DAYS: "3"
+      AIRFLOW__LOGGING__CLEANUP_FREQUENCY: "30"
 
       # ===== Your pipeline config (edit only if needed) =====
       MONGO_URI: mongodb://mongo:27017/iot_database
@@ -37,6 +39,9 @@ services:
 
       ARCHIVE_THRESHOLD_MB: "300"
       ARCHIVE_KEEP_MINUTES: "15"          # keep last 15 minutes in Mongo, archive older
+      ARCHIVE_CHUNK_DOCS: "20000"
+      ARCHIVE_MIN_FREE_MB: "800"
+      ARCHIVE_MAX_CHUNKS: "10"
       LOCAL_ARCHIVE_DIR: /opt/airflow/archive
 
       # HDFS container name (change if your namenode container has a different name)
