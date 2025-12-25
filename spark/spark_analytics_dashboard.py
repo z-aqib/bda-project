@@ -26,7 +26,7 @@ from pyspark.sql import SparkSession, functions as F
 LOOKBACK_MINUTES = 60
 
 # Mongo (Docker service name)
-MONGO_URI = "mongodb://mongo:27017"
+MONGO_URI = "mongodb://mongo:27017/iot_database"
 MONGO_DB = "iot_database"
 MONGO_COLLECTION = "sensor_readings"
 
