@@ -38,7 +38,7 @@ services:
       LOCAL_ARCHIVE_DIR: /opt/airflow/archive
 
       # HDFS container name (change if your namenode container has a different name)
-      HDFS_CONTAINER: hadoop
+      HDFS_CONTAINER: namenode
       HDFS_ARCHIVE_DIR: /bda/archive/mongo
       HDFS_METADATA_DIR: /bda/archive/metadata
 
