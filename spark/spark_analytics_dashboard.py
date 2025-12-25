@@ -23,7 +23,7 @@ from pyspark.sql import SparkSession, functions as F
 # CONFIG
 # =========================
 
-LOOKBACK_MINUTES = 60
+LOOKBACK_MINUTES = 6000
 
 # Mongo (Docker service name)
 MONGO_URI = "mongodb://mongo:27017/iot_database"
@@ -68,10 +68,14 @@ spark.sparkContext.setLogLevel("WARN")
 dim_machine = (
     spark.read.jdbc(PG_URL, "dim_machine", properties=PG_PROPS)
     .select(
-        F.col("machine_id").cast("int"),
-        F.col("factory_id").cast("int")
+        F.upper(F.trim(F.col("machine_id").cast("string"))).alias("machine_id"),
+        F.trim(F.col("factory_id").cast("string")).alias("factory_id")
     )
 )
+
+print("==== DEBUG: dim_machine rows ====")
+print("dim_machine.count =", dim_machine.count())
+dim_machine.orderBy("machine_id").show(10, truncate=False)
 
 dim_sensor = (
     spark.read.jdbc(PG_URL, "dim_sensor_type", properties=PG_PROPS)
@@ -95,7 +99,7 @@ events = (
     .option("collection", MONGO_COLLECTION)
     .load()
     .withColumn("event_timestamp_utc", F.to_timestamp(F.col("event_timestamp"), "yyyy-MM-dd HH:mm:ss"))
-    .withColumn("machine_id", F.col("machine_id").cast("int"))
+    .withColumn("machine_id", F.upper(F.trim(F.col("machine_id").cast("string"))))
     .withColumn("sensor_type_id", F.col("sensor_type_id").cast("int"))
     .withColumn("product_id", F.col("product_id").cast("int"))
     .withColumn("reading_value", F.col("reading_value").cast("double"))
@@ -104,16 +108,43 @@ events = (
     )
 )
 
+print("==== DEBUG: events rows after time filter ====")
+print("events.count =", events.count())
+
+print("==== DEBUG: timestamp parsing health ====")
+print("null event_timestamp_utc =", events.filter(F.col("event_timestamp_utc").isNull()).count())
+
+print("==== DEBUG: sample machine_ids from mongo ====")
+events.select("machine_id", "event_timestamp", "event_timestamp_utc").orderBy(F.desc("event_timestamp_utc")).show(10, truncate=False)
+
+
 # =========================
 # ENRICH EVENTS
 # =========================
 
 events = events.drop("factory_id")
 
-events = (
+events_joined = (
     events
     .join(dim_machine, "machine_id", "left")
     .join(dim_sensor, "sensor_type_id", "left")
+)
+
+print("==== DEBUG: join success ====")
+print("joined rows =", events_joined.count())
+print("rows with factory_id NOT NULL =", events_joined.filter(F.col("factory_id").isNotNull()).count())
+
+print("==== DEBUG: top unmatched machine_ids ====")
+(events_joined
+ .filter(F.col("factory_id").isNull())
+ .groupBy("machine_id")
+ .count()
+ .orderBy(F.desc("count"))
+ .show(20, truncate=False)
+)
+
+events = (
+    events_joined
     .filter(F.col("factory_id").isNotNull())
     .withColumn("minute_ts", F.date_trunc("minute", "event_timestamp_utc"))
 )
