@@ -27,8 +27,8 @@ LOOKBACK_MINUTES = 60
 
 # Mongo (Docker service name)
 MONGO_URI = "mongodb://mongo:27017"
-MONGO_DB = "iot_db"
-MONGO_COLLECTION = "fact_machine_sensor_events"
+MONGO_DB = "iot_database"
+MONGO_COLLECTION = "sensor_readings"
 
 # Postgres (Docker service name)
 PG_URL = "jdbc:postgresql://postgres:5432/analytics_db"
@@ -87,7 +87,7 @@ dim_sensor = (
 # =========================
 
 events = (
-    spark.read.format("mongodb")
+    spark.read.format("mongo")
     .option("uri", MONGO_URI)
     .option("database", MONGO_DB)
     .option("collection", MONGO_COLLECTION)
