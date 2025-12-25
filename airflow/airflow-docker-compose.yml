@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  airflow-db:
+    image: postgres:14
+    container_name: airflow-db
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    networks:
+      - bda-network
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+
+  airflow:
+    build: ./airflow
+    container_name: airflow
+    depends_on:
+      - airflow-db
+    networks:
+      - bda-network
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-db:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+
+      # ===== Your pipeline config (edit only if needed) =====
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: iot_db
+      MONGO_COLLECTION: sensor_readings
+
+      ARCHIVE_THRESHOLD_MB: "300"
+      ARCHIVE_KEEP_MINUTES: "15"          # keep last 15 minutes in Mongo, archive older
+      LOCAL_ARCHIVE_DIR: /opt/airflow/archive
+
+      # HDFS container name (change if your namenode container has a different name)
+      HDFS_CONTAINER: hadoop
+      HDFS_ARCHIVE_DIR: /bda/archive/mongo
+      HDFS_METADATA_DIR: /bda/archive/metadata
+
+      # Spark container name + path to your app inside that container
+      SPARK_CONTAINER: spark
+      SPARK_APP_PATH: /app/spark_analytics_dashboard.py
+
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./airflow/archive:/opt/airflow/archive
+
+      # IMPORTANT: lets Airflow run /usr/bin/docker exec ...
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    command: >
+      bash -lc "
+      airflow db migrate &&
+      airflow users create
+        --username admin
+        --firstname Admin
+        --lastname User
+        --role Admin
+        --email admin@airflow.local
+        --password admin || true &&
+      airflow scheduler & airflow webserver
+      "
+
+volumes:
+  airflow_db_data:
+
+networks:
+  bda-network:
+    external: true
