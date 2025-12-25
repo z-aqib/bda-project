@@ -62,7 +62,7 @@ with DAG(
         keep_minutes = int(_env("ARCHIVE_KEEP_MINUTES", "15"))
 
         local_dir = _env("LOCAL_ARCHIVE_DIR", "/opt/airflow/archive")
-        hdfs_container = _env("HDFS_CONTAINER", "hadoop")
+        hdfs_container = _env("HDFS_CONTAINER", "namenode")
         hdfs_archive_dir = _env("HDFS_ARCHIVE_DIR", "/bda/archive/mongo")
         hdfs_metadata_dir = _env("HDFS_METADATA_DIR", "/bda/archive/metadata")
 
