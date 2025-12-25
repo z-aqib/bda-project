@@ -14,7 +14,9 @@ services:
       - airflow_db_data:/var/lib/postgresql/data
 
   airflow:
-    build: ./airflow
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: airflow
     depends_on:
       - airflow-db
@@ -45,12 +47,10 @@ services:
       SPARK_APP_PATH: /app/spark_analytics_dashboard.py
 
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/logs:/opt/airflow/logs
-      - ./airflow/plugins:/opt/airflow/plugins
-      - ./airflow/archive:/opt/airflow/archive
-
-      # IMPORTANT: lets Airflow run /usr/bin/docker exec ...
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./archive:/opt/airflow/archive
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:8080"
