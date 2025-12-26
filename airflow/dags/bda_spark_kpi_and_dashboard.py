@@ -67,23 +67,6 @@ with DAG(
     )
 
     # =========================
-    # SUPERSET DASHBOARD REFRESH
-    # =========================
-    refresh_superset = BashOperator(
-        task_id="refresh_superset_dashboards",
-        bash_command=r"""
-        set -e
-        /usr/bin/docker exec -i {{ params.superset_container }} bash -lc '
-          {{ params.refresh_cmd }}
-        '
-        """,
-        params={
-        "superset_container": SUPERSET_CONTAINER,
-        "refresh_cmd": SUPERSET_REFRESH_CMD,
-        },
-    )
-
-    # =========================
     # DAG ORDER
     # =========================
-    run_spark_kpis >> refresh_superset
+    run_spark_kpis
