@@ -10,7 +10,7 @@ MONGO_URI = "mongodb://mongo:27017"
 DB = "factory"
 COLL = "raw_sensor_data"
 
-HDFS_RAW = "/bda/raw/mongo/raw.json"
+HDFS_RAW = "hdfs://namenode:8020/bda/raw/mongo/raw.json"
 NAMENODE = "namenode"
 
 default_args = {
