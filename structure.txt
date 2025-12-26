@@ -1,0 +1,60 @@
+project/
+├── airflow
+│   ├── archive
+│   ├── dags
+│   │   ├── bda_realtime_pipeline.py
+│   │   ├── bda_spark_kpi_and_dashboard.py
+│   │   └── dag_mongo_archival.py
+│   ├── logs
+│   ├── plugins
+│   ├── airflow-docker-compose.yml
+│   └── Dockerfile
+├── data_consumer
+│   ├── consumer-docker-compose.yml
+│   ├── consumer.py
+│   ├── Dockerfile
+│   └── requirements.txt
+├── data_generator
+│   ├── static_data
+│   │   ├── dim_factory.csv
+│   │   ├── dim_factory.json
+│   │   ├── dim_machine.csv
+│   │   ├── dim_machine.json
+│   │   ├── dim_operator.csv
+│   │   ├── dim_operator.json
+│   │   ├── dim_product.csv
+│   │   ├── dim_product.json
+│   │   ├── dim_sensor_type.csv
+│   │   ├── dim_sensor_type.json
+│   │   └── script_generate_static_data.py
+│   ├── Dockerfile
+│   ├── generator-docker-compose.yml
+│   ├── producer.py
+│   └── requirements.txt
+├── hdfs
+│   └── hdfs-docker-compose.yml
+├── kafka
+│   └── kafka-docker-compose.yml
+├── mongo
+│   └── mongo-docker-compose.yml
+├── postgres
+│   ├── create_analytics.sql
+│   └── postgres-docker-compose.yml
+├── spark
+│   ├── --conf
+│   ├── --packages
+│   ├── Dockerfile
+│   ├── mongo_raw_to_parquet.py
+│   ├── requirements.txt
+│   ├── spark-docker-compose.yml
+│   ├── spark_analytics.py
+│   ├── spark_analytics_dashboard.py
+│   └── spark_analytics_dashboard_2.py
+├── superset_bi
+│   └── superset-docker-compose.yml
+├── project_description.txt
+├── README.md
+├── run_stack.sh
+├── stop_stack.sh
+├── structure-maker.py
+└── structure.txt
