@@ -1,5 +1,5 @@
 """
-spark_analytics_dashboard.py
+spark_analytics_dashboard_fixed.py
 
 MongoDB (sensor events)
 -> Spark (1-minute KPIs + alerts)
@@ -16,6 +16,7 @@ Design:
 """
 
 from pyspark.sql import SparkSession, functions as F
+from pyspark.sql.functions import broadcast
 
 # =====================================================
 # CONFIG
@@ -34,7 +35,8 @@ PG_PASSWORD = "analytics_pass"
 PG_PROPS = {
     "user": PG_USER,
     "password": PG_PASSWORD,
-    "driver": "org.postgresql.Driver"
+    "driver": "org.postgresql.Driver",
+    "batchsize": "5000"
 }
 
 SPARK_PACKAGES = ",".join([
@@ -66,6 +68,7 @@ dim_machine = (
         F.col("factory_id").cast("string")
     )
 )
+dim_machine.cache()
 
 dim_sensor = (
     spark.read.jdbc(PG_URL, "dim_sensor_type", properties=PG_PROPS)
@@ -77,6 +80,7 @@ dim_sensor = (
         F.col("unit")
     )
 )
+dim_sensor.cache()
 
 # =====================================================
 # READ EVENTS (MONGO)
@@ -102,43 +106,14 @@ events = (
 )
 
 # =====================================================
-# DROP factory_id TO AVOID AMBIGUITY BEFORE JOIN
-# =====================================================
-if "factory_id" in events.columns:
-    events = events.drop("factory_id")
-
-# =====================================================
 # ENRICH EVENTS
 # =====================================================
 events = (
     events
-    .join(dim_machine, "machine_id", "left")
-    .join(dim_sensor, "sensor_type_id", "left")
+    .join(broadcast(dim_machine), "machine_id", "left")
+    .join(broadcast(dim_sensor), "sensor_type_id", "left")
     .filter(F.col("factory_id").isNotNull())
     .withColumn("kpi_minute_start_utc", F.date_trunc("minute", "event_timestamp_utc"))
-)
-
-# =====================================================
-# KPI AGGREGATION (SINGLE TABLE)
-# =====================================================
-minute_kpi = (
-    events.groupBy(
-        "kpi_minute_start_utc",
-        "factory_id",
-        "machine_id",
-        "product_id",
-        "operator_id",
-        "sensor_type_id"
-    )
-    .agg(
-        F.avg("reading_value").alias("avg_reading"),
-        F.max("reading_value").alias("max_reading"),
-        F.min("reading_value").alias("min_reading"),
-        F.count("*").alias("num_events")
-    )
-    .withColumn("planned_downtime_sec", F.lit(0))
-    .withColumn("unplanned_downtime_sec", F.lit(0))
-    .withColumn("num_alerts", F.lit(0))  # updated via alerts later if needed
 )
 
 # =====================================================
@@ -193,6 +168,48 @@ alert_events = (
         F.lit(False).alias("resolved_flag"),
         F.lit(None).cast("timestamp").alias("resolved_at")
     )
+)
+
+# =====================================================
+# KPI AGGREGATION (SINGLE TABLE)
+# =====================================================
+minute_kpi = (
+    events.groupBy(
+        "kpi_minute_start_utc",
+        "factory_id",
+        "machine_id",
+        "product_id",
+        "operator_id",
+        "sensor_type_id"
+    )
+    .agg(
+        F.avg("reading_value").alias("avg_reading"),
+        F.max("reading_value").alias("max_reading"),
+        F.min("reading_value").alias("min_reading"),
+        F.count("*").alias("num_events")
+    )
+    .withColumn("planned_downtime_sec", F.lit(0))
+    .withColumn("unplanned_downtime_sec", F.lit(0))
+)
+
+# Add num_alerts per minute
+alerts_per_minute = (
+    alert_events.groupBy(
+        F.col("factory_id"),
+        F.col("machine_id"),
+        F.col("sensor_type_id"),
+        F.col("alert_time_utc").alias("kpi_minute_start_utc")
+    )
+    .agg(F.count("*").alias("num_alerts"))
+)
+
+minute_kpi = (
+    minute_kpi.join(
+        alerts_per_minute,
+        ["kpi_minute_start_utc", "factory_id", "machine_id", "sensor_type_id"],
+        "left"
+    )
+    .fillna(0, subset=["num_alerts"])
 )
 
 # =====================================================
