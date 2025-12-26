@@ -12,7 +12,12 @@ spark = (
 RAW_PATH = "hdfs://namenode:8020/bda/raw/mongo/"
 ARCHIVE_PATH = "hdfs://namenode:8020/bda/archive/data/"
 
-df = spark.read.json(RAW_PATH)
+df = (
+    spark.read
+    .option("recursiveFileLookup", "true")  # reads files inside subfolders too
+    .option("multiLine", "true")            # handles pretty JSON arrays
+    .json(RAW_PATH)
+)
 
 df = df.withColumn(
     "event_ts",
