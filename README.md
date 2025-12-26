@@ -117,7 +117,7 @@ Dimensions:
 
 ---
 
-## 8) Verify the Pipeline is Updating (Per Minute)
+## 8) Verify the Pipeline is Updating (Every 5 Minutes)
 
 ### MongoDB has fresh events
 
@@ -134,7 +134,7 @@ FROM minute_kpi;
 "
 ```
 
-Run twice with a one-minute gap; `latest_minute` should advance.
+Run twice with a five-minute gap; `latest_minute` should advance.
 
 ---
 
