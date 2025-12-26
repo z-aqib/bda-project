@@ -31,6 +31,8 @@ allowing faster intervention and improved factory performance.
 6. **Spark** computes analytics KPIs per minute and writes results to PostgreSQL.
 7. **PostgreSQL** stores analytics tables (`minute_kpi`, `alert_events`, plus dims).
 8. **Superset** queries Postgres to build BI dashboards.
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3d9bbc35-2874-404d-b825-d5274dad9334" />
+
 
 ---
 
