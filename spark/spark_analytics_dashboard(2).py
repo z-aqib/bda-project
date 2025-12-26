@@ -102,6 +102,12 @@ events = (
 )
 
 # =====================================================
+# DROP factory_id TO AVOID AMBIGUITY BEFORE JOIN
+# =====================================================
+if "factory_id" in events.columns:
+    events = events.drop("factory_id")
+
+# =====================================================
 # ENRICH EVENTS
 # =====================================================
 events = (
