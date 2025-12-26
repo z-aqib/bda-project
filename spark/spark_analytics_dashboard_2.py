@@ -1,5 +1,5 @@
 """
-spark_analytics_dashboard_2.py
+spark_analytics_dashboard_2_fixed.py
 
 MongoDB (sensor events)
 -> Spark (1-minute KPIs + alerts)
@@ -106,14 +106,15 @@ events = (
 )
 
 # =====================================================
-# ENRICH EVENTS
+# ENRICH EVENTS WITH DIMENSIONS
 # =====================================================
-events = events.drop("factory_id")
+events = events.drop("factory_id")  # remove ambiguous column
+
 events = (
     events
     .join(broadcast(dim_machine), "machine_id", "left")
     .join(broadcast(dim_sensor), "sensor_type_id", "left")
-    .filter(F.col("factory_id").isNotNull())
+    .filter(F.col("factory_id").isNotNull())  # keep only valid machines
     .withColumn("kpi_minute_start_utc", F.date_trunc("minute", "event_timestamp_utc"))
 )
 
@@ -155,7 +156,7 @@ alert_events = (
     )
     .select(
         "alert_time_utc",
-        "factory_id",
+        "factory_id",        # <- now safe
         "machine_id",
         "sensor_type_id",
         "product_id",
@@ -172,7 +173,7 @@ alert_events = (
 )
 
 # =====================================================
-# KPI AGGREGATION (SINGLE TABLE)
+# KPI AGGREGATION
 # =====================================================
 minute_kpi = (
     events.groupBy(
@@ -196,9 +197,9 @@ minute_kpi = (
 # Add num_alerts per minute
 alerts_per_minute = (
     alert_events.groupBy(
-        F.col("factory_id"),
-        F.col("machine_id"),
-        F.col("sensor_type_id"),
+        "factory_id",
+        "machine_id",
+        "sensor_type_id",
         F.col("alert_time_utc").alias("kpi_minute_start_utc")
     )
     .agg(F.count("*").alias("num_alerts"))
