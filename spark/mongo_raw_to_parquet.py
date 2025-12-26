@@ -5,8 +5,8 @@ from pyspark.sql.types import (
 )
 from pyspark.sql.functions import to_timestamp, year, month, dayofmonth, hour
 
-RAW_PATH = "hdfs:///bda/raw/mongo/raw.json"
-PARQUET_PATH = "hdfs:///bda/archive/data"
+RAW_PATH = "hdfs://namenode:8020/bda/raw/mongo/raw.json"
+PARQUET_PATH = "hdfs://namenode:8020/bda/archive/data/"
 
 spark = (
     SparkSession.builder
