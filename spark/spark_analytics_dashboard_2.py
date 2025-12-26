@@ -108,6 +108,7 @@ events = (
 # =====================================================
 # ENRICH EVENTS
 # =====================================================
+events = events.drop("factory_id")
 events = (
     events
     .join(broadcast(dim_machine), "machine_id", "left")
