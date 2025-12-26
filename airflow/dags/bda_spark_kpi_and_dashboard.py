@@ -74,8 +74,8 @@ with DAG(
         '
         """,
         params={
-            "superset_container": SUPERSET_CONTAINER,
-            "refresh_cmd": SUPERSET_REFRESH_CMD,
+        "superset_container": SUPERSET_CONTAINER,
+        "refresh_cmd": SUPERSET_REFRESH_CMD,
         },
     )
 
