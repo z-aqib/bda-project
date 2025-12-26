@@ -4,11 +4,13 @@ from pyspark.sql.functions import to_timestamp, year, month, dayofmonth, hour
 spark = (
     SparkSession.builder
     .appName("mongo-raw-archive")
+    .config("spark.hadoop.fs.defaultFS", "hdfs://namenode:8020")
+    .config("spark.hadoop.dfs.client.use.datanode.hostname", "true")
     .getOrCreate()
 )
 
-RAW_PATH = "hdfs:///bda/raw/mongo/"
-ARCHIVE_PATH = "hdfs:///bda/archive/data/"
+RAW_PATH = "hdfs://namenode:8020/bda/raw/mongo/"
+ARCHIVE_PATH = "hdfs://namenode:8020/bda/archive/data/"
 
 df = spark.read.json(RAW_PATH)
 
