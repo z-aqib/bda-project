@@ -48,6 +48,7 @@ with DAG(
 
         # Ensure directory exists
         hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
+        hdfs("hdfs dfs -chmod -R 777 /bda")   # <-- add this
 
         # Remove old file if present
         hdfs(f"hdfs dfs -rm -f {HDFS_RAW_PATH}")
@@ -86,6 +87,7 @@ with DAG(
         set -e
         /usr/bin/docker exec -i ${SPARK_CONTAINER:-spark} bash -lc '
           export PATH=$PATH:/opt/spark/bin
+          export HADOOP_USER_NAME=root
 
           rm -rf /tmp/spark-local
           mkdir -p /tmp/spark-local

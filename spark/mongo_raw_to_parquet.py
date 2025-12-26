@@ -41,7 +41,7 @@ df = (
     .json(RAW_PATH)
 )
 
-if df.rdd.isEmpty():
+if df.limit(1).count() == 0:
     print("No data found in raw JSON. Exiting safely.")
     spark.stop()
     exit(0)
