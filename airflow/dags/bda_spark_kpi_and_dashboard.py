@@ -12,6 +12,10 @@ SPARK_APP_PATH = os.environ.get(
     "SPARK_APP_PATH",
     "/app/spark_analytics_dashboard_2.py"
 )
+SPARK_APP_PATH2 = os.environ.get(
+    "SPARK_APP_PATH2",
+    "/app/spark_analytics_dashboard_2.py"
+)
 
 SUPERSET_CONTAINER = os.environ.get("SUPERSET_CONTAINER", "superset")
 SUPERSET_REFRESH_CMD = os.environ.get(
@@ -58,7 +62,7 @@ with DAG(
         """,
         params={
             "spark_container": SPARK_CONTAINER,
-            "spark_app": SPARK_APP_PATH,
+            "spark_app": SPARK_APP_PATH2,
         },
     )
 
