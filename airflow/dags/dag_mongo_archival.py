@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.decorators import task
+from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 from pymongo import MongoClient
 import json
@@ -8,6 +9,7 @@ import subprocess
 MONGO_URI = "mongodb://mongo:27017"
 DB = "factory"
 COLL = "raw_sensor_data"
+
 HDFS_RAW = "/bda/raw/mongo/raw.json"
 NAMENODE = "namenode"
 
@@ -35,6 +37,9 @@ with DAG(
     default_args=default_args,
 ) as dag:
 
+    # -------------------------
+    # Mongo → HDFS
+    # -------------------------
     @task
     def dump_mongo_to_hdfs():
         client = MongoClient(MONGO_URI)
@@ -60,15 +65,29 @@ with DAG(
         proc.wait()
         client.close()
 
-    @task
-    def spark_archive():
-        subprocess.run(
-            [
-                "docker", "exec", "spark",
-                "/opt/spark/bin/spark-submit",
-                "/app/mongo_raw_to_parquet.py"
-            ],
-            check=True
-        )
+    # -------------------------
+    # Spark → Parquet (FIXED)
+    # -------------------------
+    spark_archive = BashOperator(
+        task_id="spark_archive",
+        bash_command=r"""
+        set -e
+        /usr/bin/docker exec -i ${SPARK_CONTAINER:-spark} bash -lc '
+          export PATH=$PATH:/opt/spark/bin
 
-    dump_mongo_to_hdfs() >> spark_archive()
+          rm -rf /tmp/spark-local
+          mkdir -p /tmp/spark-local
+          chmod 777 /tmp/spark-local
+
+          SPARK_LOCAL_DIRS=/tmp/spark-local spark-submit \
+            --master local[1] \
+            --conf spark.jars.ivy=/tmp/.ivy2 \
+            --conf spark.sql.shuffle.partitions=1 \
+            --conf spark.default.parallelism=1 \
+            --conf spark.sql.adaptive.enabled=false \
+            ${SPARK_APP_PATH:-/app/mongo_raw_to_parquet.py}
+        '
+        """,
+    )
+
+    dump_mongo_to_hdfs() >> spark_archive
