@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.decorators import task
-from airflow.decorators import get_current_context
+from airflow.operators.python import get_current_context
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 from pymongo import MongoClient
