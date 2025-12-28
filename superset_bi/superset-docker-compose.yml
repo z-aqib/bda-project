@@ -8,8 +8,13 @@ services:
       - "8088:8088"
     environment:
       SUPERSET_SECRET_KEY: supersecretkey
+    volumes:
+      - superset_home:/app/superset_home
     networks:
       - bda-network
+
+volumes:
+  superset_home:
 
 networks:
   bda-network:
