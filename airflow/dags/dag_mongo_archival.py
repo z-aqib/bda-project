@@ -69,33 +69,46 @@ with DAG(
                 ),
             ],
             stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE,   # ✅ capture real error
             text=True,
+            bufsize=1,
         )
 
         wrote_any = False
+        query = {"event_timestamp": {"$lt": cutoff_ts}}
+        cursor = coll.find(query)
 
-        
-        cursor = coll.find(
-            {"event_timestamp": {"$lt": cutoff_ts}}
-        )
+        try:
+            for doc in cursor:
+                # ✅ if HDFS side already crashed, stop immediately and show why
+                if proc.poll() is not None:
+                    err = (proc.stderr.read() or "").strip()
+                    raise RuntimeError(f"HDFS put process exited early.\nSTDERR:\n{err}")
 
-        for doc in cursor:
-            wrote_any = True
-            doc["_id"] = str(doc["_id"])
-            proc.stdin.write(json.dumps(doc) + "\n")
+                wrote_any = True
+                doc["_id"] = str(doc["_id"])
+                proc.stdin.write(json.dumps(doc) + "\n")
+        except BrokenPipeError:
+            err = (proc.stderr.read() or "").strip()
+            raise RuntimeError(f"Broken pipe while writing to HDFS.\nSTDERR:\n{err}")
+        finally:
+            try:
+                if proc.stdin:
+                    proc.stdin.close()
+            except Exception:
+                pass
 
-        proc.stdin.close()
         rc = proc.wait()
-
-        if rc != 0:
-            raise RuntimeError("HDFS put failed")
-
-       
-        coll.delete_many({"event_timestamp": {"$lt": cutoff_ts}})
-
+        err = (proc.stderr.read() or "").strip()
         client.close()
 
-        if not wrote_any:
+        if rc != 0:
+            raise RuntimeError(f"HDFS put failed (rc={rc}).\nSTDERR:\n{err}")
+
+        # ✅ only delete if we actually archived something
+        if wrote_any:
+            coll.delete_many(query)
+        else:
             print("No records older than cutoff — nothing archived this run.")
 
     spark_archive = BashOperator(
