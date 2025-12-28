@@ -55,7 +55,6 @@ with DAG(
 
         # Ensure HDFS path exists
         hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
-        hdfs("hdfs dfs -chmod -R 777 /bda")
 
         # Remove previous raw file
         hdfs(f"hdfs dfs -rm -f {HDFS_RAW_PATH}")
