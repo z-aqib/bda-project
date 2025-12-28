@@ -21,7 +21,7 @@ from pyspark.sql.functions import broadcast
 # =====================================================
 # CONFIG
 # =====================================================
-LOOKBACK_MINUTES = 120   # recompute last N minutes
+LOOKBACK_MINUTES = 6000   # recompute last N minutes
 
 # Mongo
 MONGO_URI = "mongodb://mongo:27017"
