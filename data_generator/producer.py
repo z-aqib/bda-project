@@ -40,7 +40,7 @@ missing_probability = 0.05          # 5% missing readings
 downtime_probability = 0.01
 planned_downtime_probability = 0.02
 out_of_range_probability = 0.05     # 5% abnormal readings
-publish_interval_seconds = 1
+publish_interval_seconds = 5
 
 min_product_duration = 300
 max_product_duration = 600
