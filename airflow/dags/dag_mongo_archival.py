@@ -97,7 +97,7 @@ with DAG(
 
         rc = proc.wait()
         err = (proc.stderr.read() or "").strip()
-        client.close()
+        
 
         if rc != 0:
             raise RuntimeError(f"HDFS put failed (rc={rc}).\nSTDERR:\n{err}")
@@ -106,6 +106,7 @@ with DAG(
             coll.delete_many(query)
         else:
             print("No records older than cutoff — nothing archived this run.")
+        client.close()
 
     spark_archive = BashOperator(
         task_id="spark_archive",
