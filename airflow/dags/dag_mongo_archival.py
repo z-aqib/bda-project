@@ -57,6 +57,8 @@ with DAG(
 
         # Ensure HDFS path exists
         hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
+        # remove old raw.json if it exists
+        hdfs(f"hdfs dfs -rm -f {HDFS_RAW_PATH}")
 
         ctx = get_current_context()
         run_id = ctx["run_id"].replace(":", "_")
@@ -69,7 +71,7 @@ with DAG(
                 "bash", "-lc",
                 (
                     "export PATH=/opt/hadoop-3.2.1/bin:$PATH && "
-                    f"hdfs dfs -put -f - {tmp_path}"
+                    f"hdfs dfs -put -f - {HDFS_RAW_PATH}"
                 ),
             ],
             stdin=subprocess.PIPE,
@@ -99,9 +101,6 @@ with DAG(
 
         if rc != 0:
             raise RuntimeError(f"HDFS put failed (rc={rc}).\nSTDERR:\n{err}")
-
-        # atomic-ish publish: rename tmp -> raw.json
-        hdfs(f"hdfs dfs -mv -f {tmp_path} {HDFS_RAW_PATH}")
 
         if wrote_any:
             coll.delete_many(query)
