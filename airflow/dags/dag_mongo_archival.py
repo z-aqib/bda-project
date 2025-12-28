@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.decorators import task
+from airflow.decorators import get_current_context
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 from pymongo import MongoClient
@@ -40,6 +41,7 @@ with DAG(
     start_date=datetime(2025, 1, 1),
     schedule="*/30 * * * *",
     catchup=False,
+    max_active_runs=1, # concurrency=1,  # optional
     default_args=default_args,
 ) as dag:
 
@@ -48,24 +50,26 @@ with DAG(
         client = MongoClient(MONGO_URI)
         coll = client[MONGO_DB][MONGO_COLLECTION]
 
-        
         cutoff_ts = (
             datetime.utcnow() - timedelta(hours=1)
         ).strftime("%Y-%m-%d %H:%M:%S")
+        query = {"event_timestamp": {"$lt": cutoff_ts}}
 
         # Ensure HDFS path exists
         hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
 
-        # Remove previous raw file
-        hdfs(f"hdfs dfs -rm -f {HDFS_RAW_PATH}")
+        ctx = get_current_context()
+        run_id = ctx["run_id"].replace(":", "_")
+        tmp_path = f"/bda/raw/mongo/raw_{run_id}.json"
 
+        # write to tmp file (no rm of raw.json)
         proc = subprocess.Popen(
             [
                 "docker", "exec", "-i", NAMENODE,
                 "bash", "-lc",
                 (
                     "export PATH=/opt/hadoop-3.2.1/bin:$PATH && "
-                    f"hdfs dfs -put -f - {HDFS_RAW_PATH}"
+                    f"hdfs dfs -put -f - {tmp_path}"
                 ),
             ],
             stdin=subprocess.PIPE,
@@ -75,26 +79,17 @@ with DAG(
         )
 
         wrote_any = False
-        query = {"event_timestamp": {"$lt": cutoff_ts}}
-        cursor = coll.find(query)
-
         try:
-            for doc in cursor:
-                # ✅ if HDFS side already crashed, stop immediately and show why
+            for doc in coll.find(query):
                 if proc.poll() is not None:
                     err = (proc.stderr.read() or "").strip()
-                    raise RuntimeError(f"HDFS put process exited early.\nSTDERR:\n{err}")
-
+                    raise RuntimeError(f"HDFS put exited early.\nSTDERR:\n{err}")
                 wrote_any = True
                 doc["_id"] = str(doc["_id"])
                 proc.stdin.write(json.dumps(doc) + "\n")
-        except BrokenPipeError:
-            err = (proc.stderr.read() or "").strip()
-            raise RuntimeError(f"Broken pipe while writing to HDFS.\nSTDERR:\n{err}")
         finally:
             try:
-                if proc.stdin:
-                    proc.stdin.close()
+                proc.stdin.close()
             except Exception:
                 pass
 
@@ -105,7 +100,9 @@ with DAG(
         if rc != 0:
             raise RuntimeError(f"HDFS put failed (rc={rc}).\nSTDERR:\n{err}")
 
-        # ✅ only delete if we actually archived something
+        # atomic-ish publish: rename tmp -> raw.json
+        hdfs(f"hdfs dfs -mv -f {tmp_path} {HDFS_RAW_PATH}")
+
         if wrote_any:
             coll.delete_many(query)
         else:
