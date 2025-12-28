@@ -23,15 +23,17 @@ default_args = {
     "retry_delay": timedelta(minutes=5),
 }
 
+
 def hdfs(cmd: str):
     subprocess.run(
         [
             "docker", "exec", NAMENODE,
             "bash", "-lc",
-            f"export PATH=/opt/hadoop-3.2.1/bin:$PATH && {cmd}"
+            f"export PATH=/opt/hadoop-3.2.1/bin:$PATH && {cmd}",
         ],
-        check=True
+        check=True,
     )
+
 
 with DAG(
     dag_id="mongo_raw_data_archival",
@@ -46,40 +48,56 @@ with DAG(
         client = MongoClient(MONGO_URI)
         coll = client[MONGO_DB][MONGO_COLLECTION]
 
-        # Ensure directory exists
-        hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
-        hdfs("hdfs dfs -chmod -R 777 /bda")   # <-- add this
+        
+        cutoff_ts = (
+            datetime.utcnow() - timedelta(hours=1)
+        ).strftime("%Y-%m-%d %H:%M:%S")
 
-        # Remove old file if present
+        # Ensure HDFS path exists
+        hdfs("hdfs dfs -mkdir -p /bda/raw/mongo")
+        hdfs("hdfs dfs -chmod -R 777 /bda")
+
+        # Remove previous raw file
         hdfs(f"hdfs dfs -rm -f {HDFS_RAW_PATH}")
 
-        # IMPORTANT: export PATH here too, and FAIL the task if put fails
         proc = subprocess.Popen(
             [
                 "docker", "exec", "-i", NAMENODE,
                 "bash", "-lc",
-                f"export PATH=/opt/hadoop-3.2.1/bin:$PATH && hdfs dfs -put -f - {HDFS_RAW_PATH}"
+                (
+                    "export PATH=/opt/hadoop-3.2.1/bin:$PATH && "
+                    f"hdfs dfs -put -f - {HDFS_RAW_PATH}"
+                ),
             ],
             stdin=subprocess.PIPE,
             text=True,
         )
 
         wrote_any = False
-        for doc in coll.find():
+
+        
+        cursor = coll.find(
+            {"event_timestamp": {"$lt": cutoff_ts}}
+        )
+
+        for doc in cursor:
             wrote_any = True
             doc["_id"] = str(doc["_id"])
             proc.stdin.write(json.dumps(doc) + "\n")
 
         proc.stdin.close()
         rc = proc.wait()
-        client.close()
 
         if rc != 0:
-            raise RuntimeError(f"HDFS put failed (return code={rc}). File not written: {HDFS_RAW_PATH}")
+            raise RuntimeError("HDFS put failed")
 
-        # Optional: if no docs, still create an empty file (Spark may later need schema handling)
+       
+        coll.delete_many({"event_timestamp": {"$lt": cutoff_ts}})
+
+        client.close()
+
         if not wrote_any:
-            print("WARNING: Mongo collection had 0 docs; raw.json will be empty.")
+            print("No records older than cutoff — nothing archived this run.")
 
     spark_archive = BashOperator(
         task_id="spark_archive",
