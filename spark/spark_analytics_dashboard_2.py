@@ -97,8 +97,10 @@ events = (
     .withColumn("machine_id", F.col("machine_id").cast("string"))
     .withColumn("sensor_type_id", F.col("sensor_type_id").cast("int"))
     .withColumn("product_id", F.col("product_id").cast("int"))
-    .withColumn("operator_id", F.col("operator_id").cast("int"))
+    .withColumn("operator_id", F.col("operator_id").cast("string"))
     .withColumn("reading_value", F.col("reading_value").cast("double"))
+    .withColumn("is_downtime", F.col("is_downtime").cast("boolean"))
+    .withColumn("planned_downtime", F.col("planned_downtime").cast("boolean"))
     .filter(
         F.col("event_timestamp_utc") >=
         F.expr(f"current_timestamp() - INTERVAL {LOOKBACK_MINUTES} MINUTES")
@@ -188,19 +190,23 @@ minute_kpi = (
         F.avg("reading_value").alias("avg_reading"),
         F.max("reading_value").alias("max_reading"),
         F.min("reading_value").alias("min_reading"),
-        F.count("*").alias("num_events")
+        F.count("*").alias("num_events"),
+        F.sum(F.when((F.col("is_downtime") == True) & (F.col("planned_downtime") == True), 1).otherwise(0)).cast("int").alias("planned_downtime_sec"),
+        F.sum(F.when((F.col("is_downtime") == True) & (F.col("planned_downtime") == False), 1).otherwise(0)).cast("int").alias("unplanned_downtime_sec")
     )
-    .withColumn("planned_downtime_sec", F.lit(0))
-    .withColumn("unplanned_downtime_sec", F.lit(0))
 )
 
 # Add num_alerts per minute
 alerts_per_minute = (
-    alert_events.groupBy(
+    alert_events
+    .withColumn("kpi_minute_start_utc", F.date_trunc("minute", F.col("alert_time_utc")))
+    .groupBy(
+        "kpi_minute_start_utc",
         "factory_id",
         "machine_id",
-        "sensor_type_id",
-        F.col("alert_time_utc").alias("kpi_minute_start_utc")
+        "product_id",
+        "operator_id",
+        "sensor_type_id"
     )
     .agg(F.count("*").alias("num_alerts"))
 )
@@ -208,7 +214,7 @@ alerts_per_minute = (
 minute_kpi = (
     minute_kpi.join(
         alerts_per_minute,
-        ["kpi_minute_start_utc", "factory_id", "machine_id", "sensor_type_id"],
+        ["kpi_minute_start_utc", "factory_id", "machine_id", "product_id", "operator_id", "sensor_type_id"],
         "left"
     )
     .fillna(0, subset=["num_alerts"])
